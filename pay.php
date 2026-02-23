@@ -67,7 +67,7 @@ if (isset($_GET['status']) && $_GET['status'] == 'success' && $uuid && $linkData
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=<?= time() ?>">
     
-     <noscript><iframe
+      <noscript><iframe
                 src="https://www.googletagmanager.com/ns.html?id=GTM-KW7SCQJP"
                 height="0" width="0"
                 style="display:none;visibility:hidden"></iframe></noscript>
@@ -144,12 +144,23 @@ if (isset($_GET['status']) && $_GET['status'] == 'success' && $uuid && $linkData
         }
     </style>
 
+ <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KW7SCQJP');</script>
+<!-- End Google Tag Manager -->
+
+
     <?php if ($linkData && $linkData['merchant'] === 'paypal' && $paypalClientId): ?>
         <!-- Dynamically load PayPal SDK with correct client ID -->
         <script src="https://www.paypal.com/sdk/js?client-id=<?= htmlspecialchars($paypalClientId) ?>&currency=USD"></script>
     <?php endif; ?>
 
-    <!-- GTM & LiveChat code remains here... -->
+
+    
+    
 </head>
 
 <style>
@@ -294,6 +305,37 @@ if (isset($_GET['status']) && $_GET['status'] == 'success' && $uuid && $linkData
 </style>
 
 <body>
+
+               <!-- Start of LiveChat (www.livechat.com) code -->
+<script>
+    window._lc = window._lc || {};
+    window.__lc.license = 19454392;
+    window.__lc.integration_name = "manual_onboarding";
+    window.__lc.product_name = "livechat";
+    ;(function(n,t,c){function i(n){return e.h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[LiveChatWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0,n.type="text/javascript",n.src="https://cdn.livechatinc.com/tracking.js",t.head.appendChild(n)}};!n._lc.asyncInit&&e.init(),n.LiveChatWidget=n.LiveChatWidget||e}(window,document,[].slice))
+</script>
+<!-- End of LiveChat code -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".open-livechat").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (window.LiveChatWidget) {
+        LiveChatWidget.call("maximize");
+      }
+    });
+  });
+});
+</script>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KW7SCQJP"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+
     <div id="payment-loader">
         <div class="spinner"></div>
         <div class="loader-text">Verifying Payment...</div>

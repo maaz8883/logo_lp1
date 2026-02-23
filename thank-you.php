@@ -336,6 +336,9 @@ if ($status === 'success' && $uuid !== 'N/A') {
    </style>
    
        <!-- Google Tag Manager -->
+<script>
+
+     <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -343,7 +346,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-KW7SCQJP');</script>
 <!-- End Google Tag Manager -->
 
-       <!-- Start of LiveChat (www.livechat.com) code -->
+</script>
+
+
+</head>
+
+<body>
+    
+
+   <!-- Start of LiveChat (www.livechat.com) code -->
 <script>
     window._lc = window._lc || {};
     window.__lc.license = 19454392;
@@ -353,15 +364,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 <!-- End of LiveChat code -->
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".open-livechat").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (window.LiveChatWidget) {
+        LiveChatWidget.call("maximize");
+      }
+    });
+  });
+});
+</script>
 
-</head>
-
-<body>
-    
-    <!-- Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KW7SCQJP"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+
+   
 
     <header>
         <div class="logo">
