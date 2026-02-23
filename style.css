@@ -1,0 +1,634 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #ff5722;
+    /* Approx orange from screenshot */
+    --hover-color: #e64a19;
+    --text-dark: #333;
+    --text-light: #777;
+    --bg-color: #f8f9fa;
+    --white: #ffffff;
+    --border-color: #e0e0e0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background-color: var(--white);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 24px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.logo span {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #666;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.phone {
+    font-weight: 500;
+    color: #555;
+    text-decoration: none;
+}
+
+.btn-chat {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.btn-chat:hover {
+    background-color: var(--hover-color);
+}
+
+/* Progress Bar */
+.progress-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.progress-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--border-color);
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+.progress-line-fill {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform: translateY(-50%);
+    z-index: 0;
+    transition: width 0.3s ease;
+}
+
+.step {
+    width: 30px;
+    height: 30px;
+    background-color: var(--white);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.step.active {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+}
+
+/* .step.completed {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: white;
+} */
+
+.step.completed {
+    border-color: #ba5265;
+    background: linear-gradient(45deg, #b1526a, #e99132);
+}
+
+.step.completed::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+}
+
+/* Main Content */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+}
+
+h1.page-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+p.subtitle {
+    color: var(--text-light);
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 4px;
+    /* Slightly squarer as per screenshot */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    border: 1px solid #eee;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #999;
+    background: white;
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    padding: 0 5px;
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 15px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--text-dark);
+}
+
+.form-control::placeholder {
+    color: #ccc;
+    font-size: 18px;
+    /* Larger placeholder as seen in SS */
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Grid for Logo Styles */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    text-align: center;
+}
+
+.style-card {
+    border: 1px solid transparent;
+    padding: 0 0 20px 0;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: #fff;
+}
+
+.style-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.style-image {
+    width: 100%;
+    height: 120px;
+    background-color: #333;
+    /* Placeholder dark bg */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Specific colors for placeholders to match SS roughly */
+.style-card:nth-child(1) .style-image {
+    background: #1a1a1a;
+}
+
+.style-card:nth-child(2) .style-image {
+    background: #2c2c2c;
+}
+
+.style-card:nth-child(3) .style-image {
+    background: #1e1e40;
+}
+
+.style-card:nth-child(4) .style-image {
+    background: #8B4513;
+}
+
+.style-card:nth-child(5) .style-image {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.style-card:nth-child(6) .style-image {
+    background: #000;
+}
+
+.style-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.style-desc {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 15px;
+    padding: 0 10px;
+    line-height: 1.4;
+}
+
+.style-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+    display: block;
+    cursor: pointer;
+}
+
+.footer-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+    /* Aligns with container */
+}
+
+.btn-next {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn-next:hover {
+    background-color: var(--hover-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .header-right {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Modern Invoice Styles */
+.invoice-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    max-width: 800px;
+    margin: 40px auto;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #eef0f2;
+}
+
+.invoice-header {
+    padding: 40px;
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.invoice-brand h2 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.invoice-brand img {
+    max-height: 60px;
+    max-width: 200px;
+    object-fit: contain;
+}
+
+.invoice-meta {
+    text-align: right;
+}
+
+.invoice-meta h4 {
+    margin: 0 0 5px 0;
+    color: #888;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.invoice-meta p {
+    margin: 0;
+    font-weight: 600;
+    color: #333;
+    font-size: 18px;
+}
+
+.invoice-body {
+    padding: 40px;
+}
+
+.bill-to {
+    margin-bottom: 40px;
+}
+
+.bill-to h5 {
+    color: #888;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.bill-to p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.bill-to .email {
+    color: #666;
+    font-size: 14px;
+}
+
+.invoice-table {
+    width: 100%;
+    margin-bottom: 30px;
+    border-collapse: collapse;
+}
+
+.invoice-table th {
+    text-align: left;
+    padding: 15px 0;
+    border-bottom: 2px solid #e9ecef;
+    color: #888;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.invoice-table td {
+    padding: 20px 0;
+    border-bottom: 1px solid #e9ecef;
+    color: #333;
+    font-size: 15px;
+}
+
+.invoice-table .amount-col {
+    text-align: right;
+    font-weight: 600;
+}
+
+.invoice-total {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 40px;
+}
+
+.total-box {
+    text-align: right;
+    width: 200px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.total-row.final {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #e9ecef;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.invoice-footer {
+    padding: 0 40px 40px 40px;
+    text-align: center;
+}
+
+.secure-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    color: #888;
+    font-size: 13px;
+    background: #f8f9fa;
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+/* Simple Payment Card Styles */
+.simple-card {
+    background: #fff;
+    max-width: 500px;
+    width:100%;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    /* Soft shadow */
+    font-family: 'Poppins', sans-serif;
+}
+
+.amount-box {
+    background-color: #f5f8fa;
+    /* Light blueish gray */
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.amount-label {
+    color: #6c757d;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.amount-value {
+    color: #003087;
+    /* PayPal-ish blue or Dark Blue */
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.section-label {
+    color: #003087;
+    /* Dark Blue */
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.info-box {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    background-color: #fff;
+}
+
+.client-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 16px;
+    margin: 0 0 2px 0;
+}
+
+.client-email {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+.description-text {
+    color: #555;
+    font-size: 15px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.payment-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-paypal-style {
+    background-color: #ffc439;
+    /* PayPal Yellow */
+    color: #111;
+    font-weight: 600;
+    border: none;
+    border-radius: 24px;
+    /* Pill shape */
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.btn-paypal-style:hover {
+    background-color: #f2ba36;
+}
+
+.btn-black-style {
+    background-color: #2c2e2f;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 24px;
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.3s;
+}
+
+.btn-black-style:hover {
+    background-color: #1a1b1c;
+}
+
+.powered-by {
+    text-align: center;
+    margin-top: 20px;
+    color: #999;
+    font-size: 12px;
+    font-style: italic;
+}

@@ -1,0 +1,438 @@
+<?php
+
+require_once 'payment-helpers.php';
+
+$baseCrmUrl = 'https://elementdesignagency.com/crm/';
+
+
+$uuid = $_GET['id'] ?? null;
+$error = null;
+$linkData = null;
+
+if ($uuid) {
+    $linkData = PaymentDetails_uuid($uuid);
+    if (!$linkData) {
+        $error = "Payment link not found or expired.";
+    }
+} else {
+    $error = "No Payment ID provided.";
+}
+
+// Handle Payment Submission (Clover Only)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $linkData && $linkData['merchant'] === 'clover') {
+    // Otherwise, generate it now (Fallback)
+    $cloverKey = $linkData['brand']['clover_api_key'] ?? null;
+    $merchantId = $linkData['brand']['clover_merchant_id'] ?? null;
+
+    if (!$cloverKey || !$merchantId) {
+        $error = "Clover payment is not configured for this brand.";
+    } else {
+
+        $checkout = getCloverCheckoutUrl($linkData, $linkData['custom_service'], $linkData['amount'],$uuid,'link');
+       
+    //   echo $checkout;
+    //   exit;
+       
+        if(isset($checkout['url'])) {
+            header("Location: " . $checkout['url']);
+            exit;
+        } else {
+            $error = $checkout['error'];
+        }
+    }
+}
+
+// If coming back from Clover Success, update CRM
+if (isset($_GET['status']) && $_GET['status'] == 'success' && $uuid && $linkData && $linkData['status'] == 'pending') {
+   
+//   echo 1;
+ verifyPaymentWithCrm($uuid);
+    // exit;
+}
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Invoice</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=<?= time() ?>">
+    
+     <noscript><iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-KW7SCQJP"
+                height="0" width="0"
+                style="display:none;visibility:hidden"></iframe></noscript>
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .invoice-card {
+            max-width: 500px;
+            width: 100%;
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            margin: 0 auto;
+        }
+
+        .brand-logo {
+            max-height: 80px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        .main-content {
+            /*padding-top: 60px;*/
+            padding-bottom: 60px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Loading Overlay */
+        #payment-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 215, 0, 0.1);
+            border-left-color: #FFD700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(184, 134, 11, 0.2);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loader-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+
+    <?php if ($linkData && $linkData['merchant'] === 'paypal'): ?>
+        <!-- <script src="https://www.paypal.com/sdk/js?client-id=AWf9KL0KBi4GhT2rzRvazWLiDVxV8e1MwwSG6CrrM9Bh8gvdyfpG2vgcBxCrJQgXY5l3hiH3m774Q_e_&currency=USD"></script> -->
+       <script src="https://www.paypal.com/sdk/js?client-id=<?= $paypalClientId ?>&currency=USD"></script>
+
+        <?php endif; ?>
+
+    <!-- GTM & LiveChat code remains here... -->
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+    :root {
+           --primary-gradient: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+           --dark-bg: #0a0a0a;
+       }
+
+     .thank-you-container {
+           max-width: 600px;
+           width: 90%;
+           padding: 30px 30px;
+           background: rgba(255, 255, 255, 0.03);
+           backdrop-filter: blur(20px);
+           border: 1px solid rgba(255, 215, 0, 0.1);
+           border-radius: 30px;
+           text-align: center;
+           position: relative;
+           box-shadow: 0 2px 10px 0px rgba(0, 0, 0, 0.5);
+       }
+
+       .success-icon {
+           width: 100px;
+           height: 100px;
+           background: linear-gradient(45deg, #BE5264 20%, #BE5264 50%, #F8BB16 100%);
+           border-radius: 50%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           margin: 0 auto 30px;
+           font-size: 50px;
+           color: #000;
+           box-shadow: 0 0 30px rgba(184, 134, 11, 0.4);
+           animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+       }
+
+       @keyframes scaleIn {
+           from {
+               transform: scale(0);
+               opacity: 0;
+           }
+
+           to {
+               transform: scale(1);
+               opacity: 1;
+           }
+       }
+
+       h1 {
+           font-size: 40px;
+           font-weight: 700;
+           background: var(--primary-gradient);
+           margin-bottom: 15px;
+           background-image: linear-gradient(45deg, #BE5264 20%, #BE5264 50%, #F8BB16 100%);
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+       }
+
+       p.lead-text {
+           color: #000;
+           font-size: 16px;
+           margin-bottom: 30px;
+           font-weight: 400;
+       } 
+
+       .order-info {
+           background: rgba(255, 255, 255, 0.05);
+           border-radius: 20px;
+           padding: 25px;
+           margin-bottom: 35px;
+           text-align: left;
+           border: 1px solid rgba(255, 255, 255, 0.05);
+       }
+
+       .info-row {
+           display: flex;
+           justify-content: space-between;
+           margin-bottom: 12px;
+           border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+           padding-bottom: 12px;
+       }
+
+       .info-row:last-child {
+           margin-bottom: 0;
+           border-bottom: none;
+           padding-bottom: 0;
+       }
+
+       .info-label {
+           color: #000;
+           font-size: 16px;
+           font-weight: 600;
+       }
+
+       .info-value {
+           color: #b75267;
+           font-weight: 600;
+           font-size: 15px;
+       }
+
+       .btn-home {
+           display: inline-block;
+           padding: 15px 40px;
+           background: linear-gradient(45deg, #BE5264 20%, #BE5264 50%, #F8BB16 100%);
+           color: #ffffff;
+           text-decoration: none;
+           border-radius: 12px;
+           font-weight: 700;
+           text-transform: uppercase;
+           letter-spacing: 1px;
+           transition: all 0.3s ease;
+           box-shadow: 0 10px 20px rgba(184, 134, 11, 0.2);
+       }
+
+       .btn-home:hover {
+           transform: translateY(-3px);
+           box-shadow: 0 15px 30px rgba(184, 134, 11, 0.4);
+           color: #000;
+       }
+
+       .confetti-bg {
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           pointer-events: none;
+           z-index: -1;
+       }
+       
+       .btn-home:hover {
+            background: #000;
+            transition: 0.5s;
+            color: #fff;
+        }
+
+        .success-icon i {
+             font-size: 34px;
+        }
+</style>
+
+<body>
+    <div id="payment-loader">
+        <div class="spinner"></div>
+        <div class="loader-text">Verifying Payment...</div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <img src="./assets/images/header-footer/black-logo.png" alt="">
+        </div>
+        <div class="header-right">
+            <a href="tel:+12792251157" class="phone">(279) 225-1157</a>
+        </div>
+    </header>
+    <div class="main-content">
+     <div class="simple-card"> 
+        <?php if ($linkData['status'] != 'pending'): ?>
+           
+
+            <div class="thank-you-container">
+                <div class="success-icon">
+                    <i class="fa fa-check"></i>
+                </div>
+                <h1>Order Confirmed!</h1>
+                <p class="lead-text">Thank you for choosing Logo Element Design. Our creative team has been notified and will
+                    begin working on your project immediately.</p>
+    
+                <div class="order-info">
+                    <div class="info-row">
+                        <span class="info-label">Order ID:</span>
+                        <span class="info-value">#
+                        <?php echo substr($linkData['uuid'], 0, 8); ?>
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Billed To:</span>
+                        <span class="info-value">
+                            <strong><?php echo htmlspecialchars($linkData['customer_name']); ?></strong>
+                        </span>
+                    </div>
+    
+                    <div class="info-row">
+                        <span class="info-label">Amount Paid:</span>
+                        <span class="info-value">
+                        <strong class="text-success">$<?php echo number_format($linkData['amount'], 2); ?></strong>
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Status:</span>
+                        <span class="info-value">Payment Successful</span>
+                    </div>
+                </div>
+    
+            </div>
+     
+            <?php elseif ($error): ?>
+            <div class="alert alert-danger text-center m-4">
+                <?php echo htmlspecialchars($error); ?>
+            </div>
+        <?php elseif ($linkData): ?>
+
+            <div class="amount-box">
+                <div class="amount-label">Amount Due</div>
+                <div class="amount-value">$<?php echo number_format($linkData['amount'], 2); ?></div>
+            </div>
+
+            <div class="details-section">
+                <div class="section-label">Client Details</div>
+                <div class="info-box">
+                    <p class="client-name"><?php echo htmlspecialchars($linkData['customer_name']); ?></p>
+                    <p class="client-email"><?php echo htmlspecialchars($linkData['customer_email']); ?></p>
+                </div>
+
+                <div class="section-label">Service Description</div>
+                <div class="description-text">
+                    Payment for Invoice #<?php echo substr($linkData['uuid'], 0, 8); ?> <br>
+                    <?php 
+                    if (!empty($linkData['custom_service'])) {
+                        $services = explode(',', $linkData['custom_service']);
+                        foreach ($services as $service) {
+                            $service = trim($service);
+                            if (!empty($service)) {
+                                echo htmlspecialchars($service) . '<br>';
+                            }
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+
+            <div class="payment-buttons">
+                <?php if ($linkData['merchant'] === 'clover'): ?>
+                    <form method="POST">
+                        <button type="submit" class="btn-black-style">
+                            <span class="btn-icon-card">💳</span> Debit or Credit Card
+                        </button>
+                    </form>
+
+                <?php elseif ($linkData['merchant'] === 'paypal'): ?>
+                    <div id="paypal-button-container"></div>
+                    <script>
+                        paypal.Buttons({
+                            style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
+                            createOrder: function (data, actions) {
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: { value: '<?php echo $linkData['amount']; ?>' },
+                                        description: 'Payment for Invoice #<?php echo substr($linkData['uuid'], 0, 8); ?>'
+                                    }]
+                                });
+                            },
+                            onApprove: function (data, actions) {
+                                return actions.order.capture().then(function (details) {
+                                    document.getElementById('payment-loader').style.display = 'flex';
+                                    const orderID = data.orderID;
+                                    const verifyUrl = '<?php echo $baseCrmUrl . 'api/payment-links/' . $uuid . '/verify'; ?>';
+
+                                    fetch(verifyUrl, {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                                        body: JSON.stringify({ orderID: orderID })
+                                    })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.status === 'success') {
+                                                window.location.href = "?status=success&id=<?php echo $uuid; ?>";
+                                            } else {
+                                                document.getElementById('payment-loader').style.display = 'none';
+                                                alert('Payment verification failed: ' + (data.error || 'Unknown error'));
+                                            }
+                                        })
+                                        .catch(error => {
+                                            document.getElementById('payment-loader').style.display = 'none';
+                                            alert('An error occurred while verifying the payment.');
+                                        });
+                                });
+                            }
+                        }).render('#paypal-button-container');
+                    </script>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <script src="api.js"></script>
+</body>
+
+</html>

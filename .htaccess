@@ -1,0 +1,26 @@
+# RewriteEngine On
+
+# DirectoryIndex index.php
+
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_FILENAME}.php -f
+# RewriteRule ^([^/]+)/?$ $1.php [L]
+
+
+RewriteEngine On
+RewriteBase /lp/
+
+DirectoryIndex index.php 
+
+# 1️⃣ .php ko clean URL pe 301 redirect karo (ABSOLUTE)
+RewriteCond %{THE_REQUEST} \s/+lp/([^.]+)\.php[\s?] [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# 2️⃣ clean URL ko internally .php pe map karo
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^/]+)/?$ $1.php [L]
+# Redirect www to non-www
+RewriteCond %{HTTP_HOST} ^www\.logoelementdesign\.com$ [NC]
+RewriteRule ^(.*)$ https://logoelementdesign.com/$1 [L,R=301]
+

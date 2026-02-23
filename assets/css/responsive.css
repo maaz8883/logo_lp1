@@ -1,0 +1,672 @@
+/* Arsalan style start */
+@media (max-width: 1199px){
+    .second-banner .nav-tabs {
+        width: 100% !important;
+        max-width: 700px !important;
+    }
+}
+/* Arsalan style end */
+@media (max-width: 1160px){}
+@media (max-width: 1025px){}
+@media only screen and (max-width:991px){
+    /* RESPONSIVE NAVIGATION */
+    .mobile-menu{
+      display: block;
+    }
+    /*RESPONSIVE NAVIGATION*/
+        /* Arsalan style start */
+        .second-banner .nav-tabs {
+            padding: 10px 0;
+        }
+        .first-banner-list {
+            padding-top: 10px;
+        }
+        .first-banner {
+            padding: 80px 0 80px;
+        }
+        .footer-head h1 {
+            font-size: 36px;
+            width: 90%;
+            padding-bottom: 20px;
+        }
+
+        .testi_content h2 {
+            font-size: 36px;
+            line-height: normal;
+        }
+        .brand-btn-2 {
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+        }
+        .brand-btn-2 a {
+            display: flex;
+            max-width: 240px;
+            justify-content: space-between;
+        }
+        .brand-image h1 {
+            font-size: 70px;
+        }
+        .platform-head h1 {
+            font-size: 36px;
+            padding-bottom: 10px;
+            line-height: normal;
+        }
+        .decide-heading h1 {
+            font-size: 36px;
+            line-height: normal;
+        }
+        .agency-tree-container {
+            padding-top: 20px !important;
+        }
+        .third-sec::before {
+            height: 150px;
+        }
+        .third-sec {
+            padding: 60px 0px 60px;
+        }
+        .agency-section {
+            padding: 60px 0;
+        }
+        .agency-heading p {
+            margin: 0 auto 10px auto;
+        }
+        .trees-logo-img {
+            padding-top: 0px;
+        }
+        .pricing::before {
+            height: 150px;
+        }
+        .pricing {
+            padding: 0px 0 30px;
+        }
+        .pkg-min-box {
+            margin-bottom: 20px;
+        }
+        .pricebox {
+            margin-top: 10px;
+        }
+        .pricebox h5 {
+            font-size: 14px;
+        }
+        .pricebox h4 {
+            font-size: 34px;
+        }
+        .pkg-top-text h3 {
+            font-size: 18px;
+            line-height: normal;
+        }
+        .pkg-min-box {
+            padding: 30px 15px 25px;
+        }
+        .new-add .nav-tabs {
+                border-radius: 10px;
+                width: 100%;
+                max-width: 350px;
+            }
+        .pricing-heading h1 {
+            font-size: 36px;
+            width: 95%;
+        }
+        .agency-tree-container {
+            padding-bottom: 20px;
+        }
+        .main-tress-image img {
+            animation: none;
+            max-width: 300px;
+            margin: 10px auto 20px;
+            display: block;
+        }
+        .agency-heading h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        h2.sub-title {
+            font-size: 36px;
+            margin: 20px 0px;
+        }
+        .third-sec::after {
+            display: none;
+        }
+        .third-sec {
+            background-color: #121212;
+        }
+        .round img {
+            display: none;
+        }
+        .second-banner-marq h3 {
+            font-size: 18px;
+        }
+        .second-banner-heading h1 {
+            font-size: 40px;
+        }
+        .second-main-image img {
+            top: 0px;
+        }
+        section.second-banner {
+            padding: 70px 0 70px;
+            background-color: #fff;
+        }
+        .second-banner::before {
+            height: 120px;
+            top: 0;
+        }
+        .second-main-image .second-rotate-btn img {
+            display: none;
+        }
+        .first-banner-button ul li a {
+            font-size: 15px;
+        }
+        .first-banner-button ul li {
+            display: flex;
+        }
+        .first-banner-button ul {
+            display: flex;
+            gap: 11px;
+            flex-wrap: wrap;
+        }
+        .first-banner-form form input {
+            width: 93%;
+            margin: 10px 10px 5px;
+            border-radius: 10px;
+            padding: 14px 18px;
+        }
+        .first-banner-form {
+            padding: 10px 5px 52px;
+            width: 90%;
+        }
+        .first-banner-heading h1 {
+            font-size: 36px;
+        }
+        .banner-form-heading h1 span {
+            font-size: 42px;
+        }
+        .banner-form-heading h1 {
+            font-size: 26px;
+            font-weight: 600;
+            line-height: normal;
+        }
+        .mobile-menu {
+            display: block;
+            background: #fff !important;
+            position: relative;
+            z-index: 9;
+        }
+    .main-header {
+        display: none;
+    }
+    .mobile-menu .mobile-cross {
+        background: #c35262;
+    }
+    .popup {
+        width: 100%;
+        max-width: 600px;
+    }
+    
+  }
+@media (max-width: 767px){
+    .new-add .nav-tabs {
+        margin-bottom: 20px;
+    }
+        .brand-image {
+        margin-bottom: 20px;
+    }
+    .testi_content .first-banner-button{
+        display: none;
+    }
+    section.brand-sec .row {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    section.first-banner video {
+        bottom: 0;
+    }
+    .first-banner {
+    position: relative;
+}
+    section.first-banner::after {
+        display: none;
+    }
+        .first-banner-form {
+        margin-top: 30px;
+    }
+        .popup {
+        max-width: 90%;
+    }
+        /* Arsalan style end */
+
+} 
+@media only screen and (max-width: 576px){
+
+    /* Arsalan style start */
+    .row.brand-box {
+        padding-top: 20px;
+    }
+    .brand-image h1 {
+        text-align: center;
+        font-size: 40px;
+    }
+    .brand-image h3 {
+        font-size: 20px;
+        text-align: center;
+    }
+    .popup-sub-title span {
+        font-size: 40px;
+    }
+    .popup-sub-title {
+        font-size: 28px;
+    }
+    .form-col {
+        padding: 30px 20px;
+    }
+    .popup-title {
+        font-size: 22px;
+    }
+    .second-banner .nav-tabs .nav-link.active {
+        border-radius: 0px;
+        color: #fff;
+    }
+    section#portfolio {
+        background: #fff;
+    }
+    /* Arsalan style end */
+    body{
+    overflow: hidden;
+    overflow-y: auto;
+    }
+        .floatbutton {
+        display: none;
+    }
+    .first-banner-list ul li {
+    justify-content: center;
+    font-size: 14px;
+    padding: 4px 0;
+}
+.first-banner-list {
+    display: none;
+}
+.first-banner-heading p{
+    display: none;
+}
+.first-banner-button {
+    display: none;
+}
+.mobile-view {
+    display: block;
+} 
+.button-mobile {
+    display: block;
+}
+.first-banner-form form p {
+    font-size: 12px;
+}
+.first-banner-button ul li {
+    width: 100%;
+    margin: 10px 0;
+}
+.first-banner-list ul li p {
+    font-size: 14px;
+}
+.second-banner .nav-tabs .nav-item {
+    border: 1px solid #000;
+    margin: 10px 0;
+    width: 46%;
+}
+.first-banner-list ul li img {
+    width: 33px;
+}
+    section.first-banner video {
+    top: 100px;
+}
+  section.first-banner::before, section.first-banner::after{
+    visibility: hidden;
+  }
+  .first-banner-heading p {
+    margin-top: 5px;
+    width: 100%;
+    /* font-size: 14px; */
+    text-align: center;
+    font-size: 13px;
+}
+.first-banner-button ul li a{
+  font-size: 14px;
+  display: block;
+  width: 100%;
+  /* position: relative; */
+  text-align: center;
+}
+.first-banner-button{
+  margin-bottom: 30px;
+}
+.first-banner-form{
+  width: 100%;
+}
+.second-main-image .second-rotate-btn img
+ {
+    width: 100px;
+}
+.second-main-image .second-rotate-btn
+ {
+    left: 37.6%;
+        top: -84px;
+}
+.second-banner::before {
+    width: 130px;
+    height: 70px;
+}
+section.second-banner {
+    padding: 50px 0 60px;
+}
+.second-banner-marq h3 {
+    font-size: 14px;
+}
+.second-banner-marq {
+    padding: 10px 16px;
+}
+.second-banner-heading h1 {
+    font-size: 24px;
+}
+.second-banner .nav-tabs .nav-link {
+    font-weight: 500;
+    font-size: 14px;
+    color: #000;
+    width: 100%;
+    padding: 10px 0;
+}
+.first-banner-heading h1 {
+    font-size: 27px;
+    line-height: 36px;
+    text-align: center;
+  }
+.tab-content .img-fluid{
+  width: 100%;
+}
+.second-banner .nav-tabs{
+    padding: 10px 0;
+    background: transparent;
+    flex-wrap: wrap;
+    column-gap: 20px;
+    width: 100%;
+    border-radius: inherit;
+    border: none;
+    margin-bottom: 0px;
+}
+.banner-form-heading {
+    padding-top: 0px;
+}
+.banner-form-heading h1 span {
+    font-size: 36px;}
+    .banner-form-heading h1 {
+    font-size: 24px;
+}
+.first-banner-form form input{
+    border-radius: 10px;
+    padding: 12px 14px;
+}
+.first-banner-form form button {
+    padding: 10px 20px;
+    font-size: 13px;
+    width: 90%;
+  }
+  .first-banner-form {
+    padding: 25px 0px 28px;
+  }
+  .first-banner-button {
+    padding-top: 4px;
+}
+  .main-header{
+    display: none;
+  }
+  .third-sec::before, .third-sec::after, .agency-tree-container::before, .brand-sec::before, .platform-image::after{
+    visibility: hidden;
+  }
+  .second2-rotate-btn img{
+    width: 100px;
+  }
+  .second2-rotate-btn {
+    left: 37.6%;
+    bottom: -2%;
+    left: 40%;
+    bottom: -1.5%;
+}
+.third-sec {
+    padding: 60px 0px 20px;
+  }
+h2.sub-title {
+    font-size: 20px;
+    line-height: 30px;
+}
+p{
+  font-size: 14px;
+}
+.btn-title{
+  font-size: 14px;
+}
+h2.sub-title {
+    margin: 14px 0px;
+}
+.agency-section {
+    padding: 30px 0;
+}
+.agency-badge {
+    padding: 8px 30px;
+    font-size: 14px;
+    }
+    .agency-heading h1 {
+    font-size: 21px;
+  }
+  .agency-heading p {
+    font-size: 14px;
+    margin: 0 auto 0px auto;
+}
+.trees-logo-img {
+    padding-top: 0px;
+}
+.agency-tree-container {
+    padding-bottom: 20px;
+}
+.pricing-heading h1 {
+    font-size: 24px;
+    width: 100%;
+  }
+.new-add .nav-tabs {
+    width: 90%;
+    padding: 8px 0;
+}
+.new-add .nav-tabs .nav-link {
+    font-weight: 500;
+    font-size: 14px;
+}
+.pkg-top-text p {
+    font-size: 14px;
+}
+.pricebox h4 {
+    font-size: 42px;
+  }
+  .pricebox h5 {
+    font-size: 15px;
+    line-height: 19px;}
+    .scrollbar ul li {
+    font-size: 14px;
+    line-height: 26px;
+  }
+  .third-banner-short-text p {
+    font-size: 13px;
+}
+.third-sec-col-r img {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+}
+  .pkg-min-box button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  .pkg-min-box {
+    background-color: #f3f1f1;
+    padding: 30px 30px;
+    margin-bottom: 20px;
+}
+.first-banner-button ul{
+  display: block;
+  justify-content: center;
+  width: 100%;
+}
+section.decide-sec {
+    padding: 30px 0 20px;
+    text-align: center;
+}
+
+.decide-heading h1 {
+    font-size: 17px;
+    line-height: 0.5;
+  }
+.platform-head h1 {
+    font-size: 24px;}
+    section.platform-sec {
+    padding: 0px 0 60px;
+}
+.brand-head h1 {
+    font-size: 24px;
+    line-height: 33px;
+}
+.brand-button a {
+    font-size: 14px;
+}
+.brand-btn-2{
+  flex-wrap: wrap;
+}
+
+section.brand-sec{
+  padding: 40px 0;
+  text-align: center;
+}
+.footer-button a {
+    padding: 8px 30px;
+    font-size: 14px;
+  }
+  .footer-head h1 {
+    font-size: 25px;
+    width: 100%;
+    padding-bottom: 10px;
+    }
+    footer.footer-sec {
+    padding-top: 30px;
+}
+.second-banner .nav-tabs .nav-item:last-child{
+    width: 100%;
+}
+.agency-heading p {
+    font-size: 12px;
+}
+.main-tress-image img {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    animation: none;
+}
+.pricing::before{
+  display: none;
+}
+.platform-image img {
+    width: 100%;
+    margin: 0 auto;
+}
+.platform-head {
+    text-align: center;
+}
+section.platform-sec .row {
+    padding: 0px 0 5px;
+}
+.decide-text p {
+    padding-bottom: 5px;
+    font-size: 13px;
+}
+.logo-brand ul li{
+  list-style: none;
+}
+.row.brand-box-1 {
+    padding-top: 20px;
+    margin: 0;
+}
+.logo-brand h3 {
+    font-size: 25px;
+    padding-bottom: 12px;
+    font-weight: 600;
+}
+.brand-btn-2 a {
+    width: 100%;
+    margin: auto;
+}
+.brand-btn {
+    padding-top: 10px;
+}
+ul.testi_slider {
+    min-height: 600px;
+}
+.testimonial {
+    padding: 50px 0px 0;
+}
+.logo-brand {
+    padding-bottom: 15px;
+}
+.custom_arrows {
+    left: 63%;
+    top: -160px;
+}
+.testi_slider_wrap:after {
+    bottom: 0px;
+}
+.testi_content {
+    padding: 0 0px 0 0;
+    align-content: center;
+}
+.testi_content h2 {
+    font-size: 30px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+.testi_content p {
+    text-align: center;
+}
+.testimonial::before{
+  display: none;
+}
+.bottom-footer ul {
+    display: block;
+    align-items: center;
+}
+.footer-brand-image .item img {
+    width: 130px;
+    height: 40px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+.bottom-footer ul li img {
+    width: 80%;
+    float: none;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+.second-banner .nav-tabs.nav-link, .nav-tabs .nav-link.active {
+    border: none;
+    border-radius: 0;
+    margin: 0 !important;
+}
+.third-banner-short-text {
+    text-align: center;
+}
+.owl-dots{
+  display: none;
+}
+.bottom-footer{
+  padding: 20px 0;
+}
+.first-banner {
+    padding: 50px 0 30px;
+}
+}
+@media (max-width: 320px){
+    
+}
