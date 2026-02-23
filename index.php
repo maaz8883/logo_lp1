@@ -1,171 +1,165 @@
-<!doctype html>
+
 <html>
 
-<head>
-    <title>Logo Element Design || Professional Custom Logo Design</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
-    <link rel="stylesheet" href="assets/css/aos.css">
-    <link rel="stylesheet" href="assets/css/animate.min.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/video.css" />
-    <link rel="stylesheet" href="assets/css/jquery.fancybox.min.css" />
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/owl.theme.default.cssx">
-    <link rel="stylesheet" href="assets/css/style.css?v=<?= time() ?>" />
-    <link rel="stylesheet" href="assets/css/responsive.css?v=<?= time() ?>" />
+    <head>
+        <title>Logo Element Design || Professional Custom Logo Design</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0,user-scalable=no">
+        <link rel="stylesheet" href="assets/css/aos.css">
+        <link rel="stylesheet" href="assets/css/animate.min.css" />
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/css/video.css" />
+        <link rel="stylesheet" href="assets/css/jquery.fancybox.min.css" />
+        <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="assets/css/owl.theme.default.cssx">
+        <link rel="stylesheet" href="assets/css/style.css?v=<?= time() ?>" />
+        <link rel="stylesheet" href="assets/css/responsive.css?v=<?= time() ?>" />
 
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"> -->
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"> -->
 
+        <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KW7SCQJP');</script>
+<!-- End Google Tag Manager -->
 
-</head>
+    </head>
 
-<style>
-    @media only screen and (max-width: 576px) {
-        body {
-            overflow: hidden;
-            overflow-y: auto;
-        }
+    <style>
+@media only screen and (max-width: 576px){
+    body{
+    overflow: hidden;
+    overflow-y: auto;
     }
-
+}
     .text-msg {
-        position: relative;
-    }
+    position: relative;
+}
+.pop-text-div {
+    position: relative;
+}
+.pop-text-div {
+    position: relative !important;
+}
+.pop-text-div span {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+}
+.modal-content {
+    background: transparent !important;
+}
+.modal.show .modal-dialog {
+    transform: none;
+    background-image: url(assets/images/popup-bg.webp);
+    color: #fff;
+    background-position: center left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.popup-img-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content::after {
+    content: '';
+    position: absolute;
+    background-image: url(assets/images/cta-add-before.png);
+    width: 120px;
+    height: 120px;
+    background-repeat: no-repeat;
+    left: 0px;
+    bottom: -20px;
+    background-size: contain;
+    background-position: left;
+}
+.input-div i {
+    display: none;
+}
+.modal-body form input {
+    display: block;
+    border-radius: 8px;
+    outline: 0;
+    padding: 0 12px;
+    font-family: rubik, sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    width: 100%;
+    height: 45px;
+    border: 1px solid #000;
+    margin-bottom: 10px;
+}
+.modal-body {
+    padding: 40px 20px 20px !important; 
+}
+.input-div textarea {
+    margin: 2px 0 10px;
+    height: 80px;
+    padding: 10px;
+}
+.modal-dialog {
+    width: 100%;
+    MAX-WIDTH: 620PX;
+}
+.pop-ser {
+    background-image: linear-gradient(45deg, #BE5264 20%, #BE5264 50%, #F8BB16 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-    .pop-text-div {
-        position: relative;
-    }
-
-    .pop-text-div {
-        position: relative !important;
-    }
-
-    .pop-text-div span {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-    }
-
-    .modal-content {
-        background: transparent !important;
-    }
-
-    .modal.show .modal-dialog {
-        transform: none;
-        background-image: url(assets/images/popup-bg.webp);
-        color: #fff;
-        background-position: center left;
-        background-repeat: no-repeat;
-        background-size: cover;
-        position: relative;
-    }
-
-    .popup-img-col {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-content::after {
-        content: '';
-        position: absolute;
-        background-image: url(assets/images/cta-add-before.png);
-        width: 120px;
-        height: 120px;
-        background-repeat: no-repeat;
-        left: 0px;
-        bottom: -20px;
-        background-size: contain;
-        background-position: left;
-    }
-
-    .input-div i {
-        display: none;
-    }
-
-    .modal-body form input {
-        display: block;
-        border-radius: 8px;
-        outline: 0;
-        padding: 0 12px;
-        font-family: rubik, sans-serif;
-        font-weight: 300;
-        font-size: 14px;
-        width: 100%;
-        height: 45px;
-        border: 1px solid #000;
-        margin-bottom: 10px;
-    }
-
-    .modal-body {
-        padding: 40px 20px 20px !important;
-    }
-
-    .input-div textarea {
-        margin: 2px 0 10px;
-        height: 80px;
-        padding: 10px;
-    }
-
-    .modal-dialog {
-        width: 100%;
-        MAX-WIDTH: 620PX;
-    }
-
-    .pop-ser {
-        background-image: linear-gradient(45deg, #BE5264 20%, #BE5264 50%, #F8BB16 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    /*.mobile-view {*/
-    /*    display: none;*/
-    /*} */
-    /*.button-mobile {*/
-    /*    display: none;*/
-    /*}*/
-    /*@media only screen and (max-width: 576px){*/
+/*.mobile-view {*/
+/*    display: none;*/
+/*} */
+/*.button-mobile {*/
+/*    display: none;*/
+/*}*/
+/*@media only screen and (max-width: 576px){*/
 
 
-    /*.mobile-view {*/
-    /*    display: block;*/
-    /*} */
-    /*.button-mobile {*/
-    /*    display: block;*/
-    /*}*/
-    /*}*/
+/*.mobile-view {*/
+/*    display: block;*/
+/*} */
+/*.button-mobile {*/
+/*    display: block;*/
+/*}*/
+/*}*/
 </style>
 
-<body>
+    <body>
+        
+               <!-- Start of LiveChat (www.livechat.com) code -->
+<script>
+    window._lc = window._lc || {};
+    window.__lc.license = 19454392;
+    window.__lc.integration_name = "manual_onboarding";
+    window.__lc.product_name = "livechat";
+    ;(function(n,t,c){function i(n){return e.h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[LiveChatWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0,n.type="text/javascript",n.src="https://cdn.livechatinc.com/tracking.js",t.head.appendChild(n)}};!n._lc.asyncInit&&e.init(),n.LiveChatWidget=n.LiveChatWidget||e}(window,document,[].slice))
+</script>
+<!-- End of LiveChat code -->
 
-    <!-- Start of LiveChat (www.livechat.com) code -->
-    <script>
-        window._lc = window._lc || {};
-        window.__lc.license = 19454392;
-        window.__lc.integration_name = "manual_onboarding";
-        window.__lc.product_name = "livechat";
-        ; (function (n, t, c) { function i(n) { return e.h ? e._h.apply(null, n) : e._q.push(n) } var e = { _q: [], _h: null, _v: "2.0", on: function () { i(["on", c.call(arguments)]) }, once: function () { i(["once", c.call(arguments)]) }, off: function () { i(["off", c.call(arguments)]) }, get: function () { if (!e._h) throw new Error("[LiveChatWidget] You can't use getters before load."); return i(["get", c.call(arguments)]) }, call: function () { i(["call", c.call(arguments)]) }, init: function () { var n = t.createElement("script"); n.async = !0, n.type = "text/javascript", n.src = "https://cdn.livechatinc.com/tracking.js", t.head.appendChild(n) } }; !n._lc.asyncInit && e.init(), n.LiveChatWidget = n.LiveChatWidget || e }(window, document, [].slice))
-    </script>
-    <!-- End of LiveChat code -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".open-livechat").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (window.LiveChatWidget) {
+        LiveChatWidget.call("maximize");
+      }
+    });
+  });
+});
+</script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".open-livechat").forEach(function (btn) {
-                btn.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    if (window.LiveChatWidget) {
-                        LiveChatWidget.call("maximize");
-                    }
-                });
-            });
-        });
-    </script>
-
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KW7SCQJP" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KW7SCQJP"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
     <section>
         <div class="floatbutton">
@@ -1166,7 +1160,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 third-sec-col-r">
-                    <img class="img-fluid" src="assets/images/third-banner-img.webp" alt style="animation: up-down linear 4s;
+                    <img class="img-fluid" src="assets/images/rosta.png" alt style="animation: up-down linear 4s;
     animation-iteration-count: infinite;">
                 </div>
             </div>
@@ -1254,7 +1248,7 @@
                                             </h3>
                                             <div class="pricebox">
                                                 <h4 class="package-price">$19</h4>
-                                                <h5>$116<span>70%
+                                                <h5>$85<span>70%
                                                         off</span></h5>
                                             </div>
                                             <p>Perfect for startups needing
@@ -2153,172 +2147,291 @@
         
         -->
 
-<section class="testimonial">
-        <div class="container">
+<!--<section class="testimonial">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-md-4 co-sm-12">-->
+<!--                    <div class="testi_content">-->
+<!--                        <h2 class="title">Our Client's-->
+<!--                            <span>Reviews</span>-->
+<!--                        </h2>-->
+<!--                        <p>We take pride in delivering high-quality logo-->
+<!--                            designs that help brands stand out with-->
+<!--                            confidence. Our clients trust us for our-->
+<!--                            creativity, attention to detail, and commitment-->
+<!--                            to excellence because your brand deserves a-->
+<!--                            strong first impression.</p>-->
+<!--                        <div class="first-banner-button">-->
+<!--                            <ul>-->
+<!--                                <li><a href="tel:+12792251157">-->
+<!--                                        Call Now <img src="assets/images/button-arrow.png" class="img-fluid"></a></li>-->
+<!--                                <li><a href="#!" class="showPopup">Start-->
+<!--                                        Your Project Now <img src="assets/images/button-arrow.png"-->
+<!--                                            class="img-fluid"></a></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--                <div class="col-md-8 col-sm-12">-->
+<!--                    <div class="testi_slider_wrap">-->
+<!--                        <ul class="testi_slider ">-->
+<!--                            <li class="testi_slide active">-->
+<!--                                <div class="testi_card">-->
+<!--                                    <div class="test_img">-->
+<!--                                        <img src="assets/images/testi_img2.png" alt>-->
+<!--                                    </div>-->
+<!--                                    <div class="testi_content">-->
+<!--                                        <h4 class="testi_title">Miguel.-->
+<!--                                        </h4>-->
+<!--                                        <p>Logo Element Design delivered a-->
+<!--                                            clean, modern logo that truly-->
+<!--                                            reflects our brand identity. The-->
+<!--                                            attention to detail and creative-->
+<!--                                            approach made the entire-->
+<!--                                            experience smooth and-->
+<!--                                            professional.</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li class="testi_slide ">-->
+<!--                                <div class="testi_card">-->
+<!--                                    <div class="test_img">-->
+<!--                                        <img src="assets/images/testi_img1-2.png" alt>-->
+<!--                                    </div>-->
+<!--                                    <div class="testi_content">-->
+<!--                                        <h4 class="testi_title">James.</h4>-->
+<!--                                        <p>We were impressed by the-->
+<!--                                            creativity and fast turnaround.-->
+<!--                                            The final logo was polished,-->
+<!--                                            unique, and helped us position-->
+<!--                                            our brand more professionally in-->
+<!--                                            the market.-->
+<!--                                        </p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li class="testi_slide ">-->
+<!--                                <div class="testi_card">-->
+<!--                                    <div class="test_img">-->
+<!--                                        <img src="assets/images/testi_img1.png" alt>-->
+<!--                                    </div>-->
+<!--                                    <div class="testi_content">-->
+<!--                                        <h4 class="testi_title">Michael-->
+<!--                                            D</h4>-->
+<!--                                        <p>From the initial concept to the-->
+<!--                                            final delivery, everything was-->
+<!--                                            handled professionally. The-->
+<!--                                            design quality exceeded our-->
+<!--                                            expectations and fit our vision-->
+<!--                                            perfectly.</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li class="testi_slide ">-->
+<!--                                <div class="testi_card">-->
+<!--                                    <div class="test_img">-->
+<!--                                        <img src="assets/images/testi_img3.png" alt>-->
+<!--                                    </div>-->
+<!--                                    <div class="testi_content">-->
+<!--                                        <h4 class="testi_title">Henry </h4>-->
+<!--                                        <p>Our brand needed a premium look,-->
+<!--                                            and LogoElementDesign delivered-->
+<!--                                            exactly that. The logo is clean,-->
+<!--                                            memorable, and works perfectly-->
+<!--                                            across all platforms.</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li class="testi_slide">-->
+<!--                                <div class="testi_card">-->
+<!--                                    <div class="test_img">-->
+<!--                                        <img src="assets/images/testi_img3.png" alt>-->
+<!--                                    </div>-->
+<!--                                    <div class="testi_content">-->
+<!--                                        <h4 class="testi_title">Daniel-->
+<!--                                            K.</h4>-->
+<!--                                        <p>Excellent communication, strong-->
+<!--                                            design skills, and a clear-->
+<!--                                            understanding of our brand-->
+<!--                                            goals. We are extremely-->
+<!--                                            satisfied with the final-->
+<!--                                            logo.</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li class="testi_slide  ">-->
+<!--                                <div class="testi_card">-->
+<!--                                    <div class="test_img">-->
+<!--                                        <img src="assets/images/testi_img4.png" alt>-->
+<!--                                    </div>-->
+<!--                                    <div class="testi_content">-->
+<!--                                        <h4 class="testi_title">Robert-->
+<!--                                            M</h4>-->
+<!--                                        <p>Working with LogoElementDesign-->
+<!--                                            was a great experience from-->
+<!--                                            start to finish. They understood-->
+<!--                                            our vision clearly and-->
+<!--                                            transformed it into a-->
+<!--                                            professional, high-quality logo-->
+<!--                                            that represents our brand-->
+<!--                                            perfectly.</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li class="testi_slide  ">-->
+<!--                                <div class="testi_card">-->
+<!--                                    <div class="test_img">-->
+<!--                                        <img src="assets/images/testi_img2.png" alt>-->
+<!--                                    </div>-->
+<!--                                    <div class="testi_content">-->
+<!--                                        <h4 class="testi_title">Benjamin.-->
+<!--                                        </h4>-->
+<!--                                        <p>The team delivered a visually-->
+<!--                                            strong and well-balanced logo-->
+<!--                                            that helped us stand out in a-->
+<!--                                            competitive market. Their-->
+<!--                                            creativity and professionalism-->
+<!--                                            truly set them apart.</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+
+<!--                        </ul>-->
+<!--                        <div class="custom_arrows">-->
+<!--                            <button class="prev_arrow">←</button>-->
+<!--                            <button class="next_arrow">→</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+<section>
+    <div class="testi-sec" id="testi">
+         <div class="container">
             <div class="row">
-                <div class="col-md-4 co-sm-12">
-                    <div class="testi_content">
-                        <h2 class="title">Our Client's
-                            <span>Reviews</span>
-                        </h2>
-                        <p>We take pride in delivering high-quality logo
-                            designs that help brands stand out with
-                            confidence. Our clients trust us for our
-                            creativity, attention to detail, and commitment
-                            to excellence because your brand deserves a
-                            strong first impression.</p>
-                        <div class="first-banner-button">
-                            <ul>
-                                <li><a href="tel:+12792251157">
-                                        Call Now <img src="assets/images/button-arrow.png" class="img-fluid"></a></li>
-                                <li><a href="#!" class="showPopup">Start
-                                        Your Project Now <img src="assets/images/button-arrow.png"
-                                            class="img-fluid"></a></li>
-                            </ul>
-                        </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="footer-button">
+                        <a href="#!">Testimonials</a>
                     </div>
 
-                </div>
-                <div class="col-md-8 col-sm-12">
-                    <div class="testi_slider_wrap">
-                        <ul class="testi_slider ">
-                            <li class="testi_slide active">
-                                <div class="testi_card">
-                                    <div class="test_img">
-                                        <img src="assets/images/testi_img2.png" alt>
-                                    </div>
-                                    <div class="testi_content">
-                                        <h4 class="testi_title">Miguel.
-                                        </h4>
-                                        <p>Logo Element Design delivered a
-                                            clean, modern logo that truly
-                                            reflects our brand identity. The
-                                            attention to detail and creative
-                                            approach made the entire
-                                            experience smooth and
-                                            professional.</p>
-                                    </div>
+                    <div class="footer-head">
+                        <h1>We take pride in <span>delivering high-quality</span> logo
+                         designs that help brands stand out with
+                         confidence.
+                        </h1>
+                    </div>
+                    </div>
+                    <div class="testi-back">
+                    <div class="testi-slider">
+                        <div class="owl-carousel">
+                            <div class="item">
+                                <div class="testi-star">
+                                    <ul>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </li>
-                            <li class="testi_slide ">
-                                <div class="testi_card">
-                                    <div class="test_img">
-                                        <img src="assets/images/testi_img1-2.png" alt>
+                                <p>We were impressed by the creativity and fast turnaround. The final logo was polished, unique, and helped us position our brand more professionally in the market.</p>
+                                <div class="testi-img-g">
+                                    <div class="testo-img">
+                                    <img src="assets/images/testi_img1-2.png" class="img-fluid">
                                     </div>
-                                    <div class="testi_content">
-                                        <h4 class="testi_title">James.</h4>
-                                        <p>We were impressed by the
-                                            creativity and fast turnaround.
-                                            The final logo was polished,
-                                            unique, and helped us position
-                                            our brand more professionally in
-                                            the market.
-                                        </p>
-                                    </div>
+                                    <div class="testi-n">
+                                    <h2>James.</h2>
+                                    <h3>Salon Owner</h3>
+                                        </div>
                                 </div>
-                            </li>
-                            <li class="testi_slide ">
-                                <div class="testi_card">
-                                    <div class="test_img">
-                                        <img src="assets/images/testi_img1.png" alt>
-                                    </div>
-                                    <div class="testi_content">
-                                        <h4 class="testi_title">Michael
-                                            D</h4>
-                                        <p>From the initial concept to the
-                                            final delivery, everything was
-                                            handled professionally. The
-                                            design quality exceeded our
-                                            expectations and fit our vision
-                                            perfectly.</p>
-                                    </div>
+                            </div>
+                            <div class="item">
+                                <div class="testi-star">
+                                    <ul>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </li>
-                            <li class="testi_slide ">
-                                <div class="testi_card">
-                                    <div class="test_img">
-                                        <img src="assets/images/testi_img3.png" alt>
+                                <p>Logo Element Design delivered a clean, modern logo that truly reflects our brand identity. The attention to detail and creative approach made the entire experience smooth and professional.</p>
+                                <div class="testi-img-g">
+                                    <div class="testo-img">
+                                    <img src="assets/images/testi_img2.png" class="img-fluid">
                                     </div>
-                                    <div class="testi_content">
-                                        <h4 class="testi_title">Henry </h4>
-                                        <p>Our brand needed a premium look,
-                                            and LogoElementDesign delivered
-                                            exactly that. The logo is clean,
-                                            memorable, and works perfectly
-                                            across all platforms.</p>
-                                    </div>
+                                    <div class="testi-n">
+                                    <h2>Miguel.</h2>
+                                    <h3>Entrepreneur</h3>
+                                        </div>
                                 </div>
-                            </li>
-                            <li class="testi_slide">
-                                <div class="testi_card">
-                                    <div class="test_img">
-                                        <img src="assets/images/testi_img3.png" alt>
-                                    </div>
-                                    <div class="testi_content">
-                                        <h4 class="testi_title">Daniel
-                                            K.</h4>
-                                        <p>Excellent communication, strong
-                                            design skills, and a clear
-                                            understanding of our brand
-                                            goals. We are extremely
-                                            satisfied with the final
-                                            logo.</p>
-                                    </div>
+                            </div>
+                            <div class="item">
+                                <div class="testi-star">
+                                    <ul>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-star"></i>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </li>
-                            <li class="testi_slide  ">
-                                <div class="testi_card">
-                                    <div class="test_img">
-                                        <img src="assets/images/testi_img4.png" alt>
+                                <p>From the initial concept to the final delivery, everything was handled professionally. The design quality exceeded our expectations and fit our vision perfectly.</p>
+                                <div class="testi-img-g">
+                                    <div class="testo-img">
+                                    <img src="assets/images/testi_img1.png" class="img-fluid">
                                     </div>
-                                    <div class="testi_content">
-                                        <h4 class="testi_title">Robert
-                                            M</h4>
-                                        <p>Working with LogoElementDesign
-                                            was a great experience from
-                                            start to finish. They understood
-                                            our vision clearly and
-                                            transformed it into a
-                                            professional, high-quality logo
-                                            that represents our brand
-                                            perfectly.</p>
-                                    </div>
+                                    <div class="testi-n">
+                                    <h2>Michael D</h2>
+                                    <h3>Tech</h3>
+                                        </div>
                                 </div>
-                            </li>
-                            <li class="testi_slide  ">
-                                <div class="testi_card">
-                                    <div class="test_img">
-                                        <img src="assets/images/testi_img2.png" alt>
-                                    </div>
-                                    <div class="testi_content">
-                                        <h4 class="testi_title">Benjamin.
-                                        </h4>
-                                        <p>The team delivered a visually
-                                            strong and well-balanced logo
-                                            that helped us stand out in a
-                                            competitive market. Their
-                                            creativity and professionalism
-                                            truly set them apart.</p>
-                                    </div>
-                                </div>
-                            </li>
-
-                        </ul>
-                        <div class="custom_arrows">
-                            <button class="prev_arrow">←</button>
-                            <button class="next_arrow">→</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                    </div>
+                    </div>
+                    </div>
+    </div>
+</section>
 
  <section class="third-sec second-cta-add">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 third-sec-col-r">
-                    <img class="img-fluid" src="assets/images/vbcvb.png" alt style="animation: up-down linear 4s;
+                <div class="col-md-6 third-sec-col-r dd">
+                    <img class="img-fluid" src="assets/images/gsirls.png" alt style="animation: up-down linear 4s;
     animation-iteration-count: infinite;">
                 </div>
             <div class="col-md-6 third-sec-col-l">

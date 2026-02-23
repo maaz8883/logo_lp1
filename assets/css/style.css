@@ -438,7 +438,7 @@ button:hover{
 
 
 .banner-form-heading h1 {
-    font-size: 38px;
+    font-size: 36px;
     font-weight: 600;
 }
 
@@ -620,14 +620,14 @@ section.second-banner {
 }
 
 .second-banner-marq h3 {
-    font-size: 20px;
+    font-size: 18px;
     color: #1B1B1B;
 }
 
 
 .second-banner-heading h1 {
     text-align: center;
-    font-size: 50px;
+    font-size: 48px;
     font-weight: 500;
     padding: 20px 0;
     color: #000;
@@ -728,12 +728,14 @@ section.first-banner video {
 
 .new-add .nav-tabs {
     width: 27%;
-    background-color: #000;
-    border-radius: 20px;
+    background-color: #ffffff;
+    border-radius: 30px;
     justify-content: center;
     margin: 0 auto;
     margin-bottom: 30px;
     padding: 4px 0;
+    border: none;
+    box-shadow: 1px 1px 8px #e1e1e1;
 }
 
 
@@ -974,7 +976,7 @@ section.first-banner video {
 }
 
 .pricing-heading h1 {
-    font-size: 42px;
+    font-size: 40px;
     font-weight: 600;
     color: #000;
     line-height: 1.3;
@@ -1045,7 +1047,7 @@ section.agency-section .row{
 }
 
 .agency-heading h1 {
-    font-size: 42px;
+    font-size: 40px;
     font-weight: 600;
     color: #000;
     line-height: 1.3;
@@ -1213,6 +1215,7 @@ section.brand-sec {
     /* border-radius: 55px; */
     position: relative;
     z-index: 1;
+    overflow: hidden;
 }
 
 .brand-sec::before {
@@ -1220,10 +1223,10 @@ section.brand-sec {
     background-image: url(../images/bg-inner.png);
     background-repeat: no-repeat;
     background-size: contain;
-    width: 674px;
-    height: 857px;
+    width: 754px;
+    height: 882px;
     position: absolute;
-    right: 0;
+    right: -90px;
     bottom: 0;
     background-position: right bottom;
     /* background-size: 58%; */
@@ -1251,8 +1254,8 @@ section.brand-sec {
 }
 .brand-head h1 {
     color: #000000;
-    font-size: 38px;
-    font-weight: 600;
+    font-size: 37px;
+    font-weight: 500;
     padding-bottom: 18px;
     padding-top: 33px;
 }
@@ -1260,17 +1263,23 @@ section.brand-sec {
 .brand-head p {
     color: #000000;
     font-size: 15px;
+    font-weight: 600;
 }
 
 .logo-brand h3 {
     color: #000000;
     font-size: 25px;
     padding-bottom: 12px;
+    background: linear-gradient(181deg, #69518A, #BE5264, #f7b918);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
 }
 
 .logo-brand ul li a {
     color: #000000;
     font-size: 14px;
+    font-weight: 600;
 }
 
 .logo-brand ul li {
@@ -1323,20 +1332,23 @@ span.top-head {
     -webkit-text-fill-color: transparent;
     font-size: 125px;
     text-align: end;
+    font-weight: 600;
 }
 
 .brand-image h3 {
     color: #000000;
     text-align: end;
-    font-size: 27px;
+    font-size: 26px;
+    font-weight: 600;
 }
 
 .brand-image {
     position: relative;
+    padding-top: 70px;
 }
 
 footer.footer-sec {
-    padding-top: 90px;
+    padding-top: 70px;
     text-align: center;
 }
 
@@ -1396,7 +1408,7 @@ section.platform-sec .row {
 }
 
 .platform-head h1 {
-    font-size: 46px;
+    font-size: 44px;
     font-weight: 600;
     padding-bottom: 20px;
 }
@@ -1440,7 +1452,7 @@ section.platform-sec::before {
 .third-sec {
     /* background-image: url(../images/cta-add-banner.png); */
     background: linear-gradient(178deg, #000000 5%, #000000 71%, #be5264 117%);
-    padding: 80px 0px 80px;
+    padding: 40px 0px 40px;
     color: #fff;
     background-position: center;
     background-repeat: no-repeat;
@@ -1449,7 +1461,7 @@ section.platform-sec::before {
 }
 
 h2.sub-title {
-    font-size: 45px;
+    font-size: 41px;
     font-weight: 400;
     margin: 30px 0px;
 }
@@ -1571,15 +1583,15 @@ h2.sub-title span {
 }
 
 .new-add .nav-tabs .nav-link {
-    color: #ffffff;
-    /* font-weight: 600; */
+    color: #000000;
+    font-weight: 600;
     font-size: 15px;
     margin: 0 2px;
     font-family: Inter;
 }
 
 .new-add .nav-tabs .nav-link:hover {
-    border-radius: 10px;
+    border-radius: 20px;
     transition: 0.5s;
 }
 
@@ -1715,17 +1727,18 @@ section.decide-sec .row {
 }
 
 .footer-head h1 {
-    font-size: 44px;
+    font-size: 42px;
     width: 70%;
     margin: 0 auto;
     padding-bottom: 39px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .footer-head h1 span {
     background-image: linear-gradient(45deg, #BE5264 20%, #BE5264 50%, #F8BB16 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-weight: 600;
 }
 
 .footer-button a::before {
@@ -2510,4 +2523,96 @@ button.btn.submitbtn:hover {
 } 
 .button-mobile {
     display: none;
+}
+.brand-head h1 span {
+    background: linear-gradient(181deg, #69518A, #BE5264, #f7b918);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    font-size: 41px;
+}
+
+
+.brand-btn-2 a i {
+    font-size: 12px;
+}
+.brand-btn-2 a:nth-child(2) {background: linear-gradient(181deg, #69518A, #BE5264, #f7b918);color: #fff;}
+.testi-sec {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.testi-slider {
+    background: #f7f7f7;
+    border-radius: 20px;
+    padding: 50px 30px 90px;
+}
+
+.testi-star ul {
+    display: flex;
+    align-items: center;
+    padding-bottom: 14px;
+}
+
+.testi-star ul li i {
+    color: #ca6754;
+}
+
+
+.testi-slider p {
+    text-align: left;
+    color: #000;
+    font-size: 16px;
+    padding-bottom: 20px;
+    width: 91%;
+}
+
+
+.testi-slider .item {
+    margin-right: 23px !important;
+}
+
+.testi-img-g {
+    display: flex;
+    align-items: center;
+}
+
+.testi-img-g img {
+    padding-right: 21px;
+}
+
+.testi-n {
+    text-align: left;
+}
+
+.testi-n h2 {
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.testi-n h3 {
+    font-size: 17px;
+}
+.testi-back .owl-nav {
+    float: right;
+    padding-top: 40px;
+}
+
+.testi-back .owl-nav button span {
+    background: #fff;
+    padding: 10px 17px;
+    border-radius: 40px;
+    border: 1px solid #a3a0a0;
+    margin-right: 7px;
+}
+
+
+.testi-back .owl-nav button {
+    transition: .5s;
+}
+
+.testi-back .owl-nav button:hover span {
+    transition: .5s;
+    background: #000;
+    color: #fff;
 }

@@ -13,6 +13,11 @@ if ($uuid) {
     $linkData = PaymentDetails_uuid($uuid);
     if (!$linkData) {
         $error = "Payment link not found or expired.";
+    } else {
+        // Get PayPal client ID from API response
+        $paypalClientId = $linkData['brand']['paypal_client_id'] ?? null;
+        $paypalMode = $linkData['brand']['paypal_mode'] ?? 'sandbox';
+        $paypalEnvironment = $linkData['brand']['paypal_environment'] ?? 'sandbox';
     }
 } else {
     $error = "No Payment ID provided.";
@@ -139,11 +144,10 @@ if (isset($_GET['status']) && $_GET['status'] == 'success' && $uuid && $linkData
         }
     </style>
 
-    <?php if ($linkData && $linkData['merchant'] === 'paypal'): ?>
-        <!-- <script src="https://www.paypal.com/sdk/js?client-id=AWf9KL0KBi4GhT2rzRvazWLiDVxV8e1MwwSG6CrrM9Bh8gvdyfpG2vgcBxCrJQgXY5l3hiH3m774Q_e_&currency=USD"></script> -->
-       <script src="https://www.paypal.com/sdk/js?client-id=<?= $paypalClientId ?>&currency=USD"></script>
-
-        <?php endif; ?>
+    <?php if ($linkData && $linkData['merchant'] === 'paypal' && $paypalClientId): ?>
+        <!-- Dynamically load PayPal SDK with correct client ID -->
+        <script src="https://www.paypal.com/sdk/js?client-id=<?= htmlspecialchars($paypalClientId) ?>&currency=USD"></script>
+    <?php endif; ?>
 
     <!-- GTM & LiveChat code remains here... -->
 </head>

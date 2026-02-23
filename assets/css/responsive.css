@@ -1,9 +1,59 @@
 /* Arsalan style start */
 @media (max-width: 1199px){
     .second-banner .nav-tabs {
-        width: 100% !important;
-        max-width: 700px !important;
+        width: 85% !important;
+        max-width: 100%;
+    
     }
+    .first-banner-heading h1 {
+    font-size: 39px;
+    }
+    .first-banner-form form p {
+    font-size: 12px;
+    color: #000;
+}
+.second-banner-heading h1 {
+    text-align: center;
+    font-size: 41px;
+}
+.second-banner-marq h3 {
+    font-size: 15px;
+    color: #1B1B1B;
+}
+h2.sub-title {
+    font-size: 40px;
+}
+
+.trees-logo-img ul li img {
+    width: 130px;
+  
+}
+.agency-heading h1 {
+    font-size: 36px;
+}
+.pricing-heading h1 {
+    font-size: 37px;
+}
+.new-add .nav-tabs {
+    width: 40%;
+}
+.footer-head h1 {
+    font-size: 38px;
+    width: 80%;
+}
+.brand-sec::before {
+    width: 684px;
+    right: -90px;
+    z-index: -1;
+    top: 150px;
+}
+.brand-btn-2 a {
+    background-color: #ffff;
+    color: #000;
+    padding: 10px 10px;
+    border-radius: 35px;
+    font-size: 16px;
+}
 }
 /* Arsalan style end */
 @media (max-width: 1160px){}
@@ -202,7 +252,9 @@
         width: 100%;
         max-width: 600px;
     }
-    
+    .brand-sec::before {
+    display:none;
+    }
   }
 @media (max-width: 767px){
     .new-add .nav-tabs {
@@ -525,7 +577,7 @@ section.decide-sec {
 .platform-head h1 {
     font-size: 24px;}
     section.platform-sec {
-    padding: 0px 0 60px;
+           padding: 50px 0 60px;
 }
 .brand-head h1 {
     font-size: 24px;
@@ -541,6 +593,9 @@ section.decide-sec {
 section.brand-sec{
   padding: 40px 0;
   text-align: center;
+}
+.brand-head h1 span {
+      font-size: 31px;
 }
 .footer-button a {
     padding: 8px 30px;
@@ -596,8 +651,9 @@ section.platform-sec .row {
     font-weight: 600;
 }
 .brand-btn-2 a {
-    width: 100%;
-    margin: auto;
+         width: 100%;
+        margin: 0 auto;
+        display: block;
 }
 .brand-btn {
     padding-top: 10px;
@@ -665,6 +721,16 @@ ul.testi_slider {
 }
 .first-banner {
     padding: 50px 0 30px;
+}
+.agency-badge-wrapper {
+    text-align: center;
+    padding-top: 40px;
+}
+.agency-heading {
+    text-align: center;
+}
+.dd{
+    display:none;
 }
 }
 @media (max-width: 320px){
