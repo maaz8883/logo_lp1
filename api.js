@@ -1,6 +1,14 @@
-const API_BASE_URL = 'http://127.0.0.1:8000';
+// const API_BASE_URL = 'http://127.0.0.1:8000';
 // const API_BASE_URL = 'https://elementdesignagency.com/crm';
+const hostname = window.location.hostname;
 
+let API_BASE_URL;
+
+if (hostname === "localhost" || hostname === "127.0.0.1") {
+    API_BASE_URL = "http://127.0.0.1:8000";
+} else {
+    API_BASE_URL = "https://elementdesignagency.com/crm";
+}
 /**
  * Helper to get value from localStorage
  */
