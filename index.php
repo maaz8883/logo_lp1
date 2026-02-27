@@ -16,6 +16,9 @@
         <link rel="stylesheet" href="assets/css/owl.theme.default.cssx">
         <link rel="stylesheet" href="assets/css/style.css?v=<?= time() ?>" />
         <link rel="stylesheet" href="assets/css/responsive.css?v=<?= time() ?>" />
+        
+              <link rel="preload" as="image" href="assets/images/logo.png" fetchpriority="high">
+	<link rel="preload" as="image" href="assets/images/first-banner-img.webp" type="image/webp" fetchpriority="high">
 
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"> -->
 
@@ -291,10 +294,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </header>
 
     <section class="first-banner">
-        <video autoplay muted loop id="myVideo">
-            <source src="assets/video/max-video.mp4" video="/mp4">
-            <source src="assets/video/max-video.mp4" type="video/ogg">
-        </video>
+        <!--<video autoplay muted loop id="myVideo">-->
+        <!--    <source src="assets/video/max-video.mp4" video="/mp4">-->
+        <!--    <source src="assets/video/max-video.mp4" type="video/ogg">-->
+        <!--</video>-->
         <div class="container" style="position: relative;">
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12" data-aos="fade-right" data-aos-duration="3000">
@@ -1159,9 +1162,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 third-sec-col-r">
-                    <img class="img-fluid" src="assets/images/rosta.png" alt style="animation: up-down linear 4s;
-    animation-iteration-count: infinite;">
+                 <div class="col-md-6 third-sec-col-r dd">
+                    <div class="cta-image2">
+                    <img class="img-fluid" src="assets/images/rostaa.png" alt>
+    </div>
                 </div>
             </div>
         </div>
@@ -1175,14 +1179,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="trees-logo-img">
                             <ul>
-                                <li> <img src="assets/images/trees-logo/1.png" class="img-fluid">
-                                    <img src="assets/images/trees-logo/2(1).png" class="img-fluid">
-                                    <img src="assets/images/trees-logo/4.png" class="img-fluid">
-                                    <img src="assets/images/trees-logo/3.png" class="img-fluid">
-                                    <img src="assets/images/trees-logo/3(1).png" class="img-fluid">
-                                    <img src="assets/images/trees-logo/1(1).png" class="img-fluid">
-                                    <img src="assets/images/trees-logo/2.png" class="img-fluid">
-                                    <img src="assets/images/trees-logo/4(1).png" class="img-fluid">
+                                        <li> <img src="assets/images/l-1.png" class="img-fluid">
+                                    <img src="assets/images/l-2.png" class="img-fluid">
+                                    <img src="assets/images/l-3.png" class="img-fluid">
+                                    <img src="assets/images/l-4.png" class="img-fluid">
+                                    <img src="assets/images/l-5.png" class="img-fluid">
+                                    <img src="assets/images/l-6.png" class="img-fluid">
+                                    <img src="assets/images/l-7.png" class="img-fluid">
+                                    <img src="assets/images/l-8.png" class="img-fluid">
                                 </li>
                             </ul>
                         </div>
@@ -2082,9 +2086,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 third-sec-col-r">
-                    <img class="img-fluid" src="assets/images/vbcvb.png" alt style="animation: up-down linear 4s;
-    animation-iteration-count: infinite;">
+                 <div class="col-md-6 third-sec-col-r dd">
+                    <div class="cta-images1">
+                    <img class="img-fluid" src="assets/images/vbcvba.png" alt>
+    </div>
                 </div>
             </div>
         </div>
@@ -2430,9 +2435,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
  <section class="third-sec second-cta-add">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 third-sec-col-r dd">
-                    <img class="img-fluid" src="assets/images/gsirls.png" alt style="animation: up-down linear 4s;
-    animation-iteration-count: infinite;">
+               <div class="col-md-6 third-sec-col-r dd">
+                    <div class="cta-images">
+                    <img class="img-fluid" src="assets/images/gsirlsa.png" alt>
+    </div>
                 </div>
             <div class="col-md-6 third-sec-col-l">
                     <div class="third-banner-heading">

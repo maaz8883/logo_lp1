@@ -318,7 +318,7 @@ button:hover{
 
 
 .first-banner {
-    background-image: url(../images/first-banner.webp);
+    background-image: url(../images/first-banner-img.webp);
     background-size: cover;
     background-position: center;
     padding: 130px 0 130px;
@@ -606,8 +606,9 @@ section.first-banner .row {
 
 section.second-banner {
     position: relative;
-    z-index: 1111;
+    /* z-index: 1111; */
     padding: 90px 0 150px;
+    background: #fff;
 }
 
 .second-banner-marq {
@@ -696,7 +697,7 @@ section.second-banner {
 } */
 
 .second-banner::after {
-    content: '';
+    /* content: ''; */
     position: absolute;
     /* background-image: url(../images/Ellipse-6363.png); */
     background-color: #fff;
@@ -706,7 +707,7 @@ section.second-banner {
     left: 0;
     bottom: 0;
     background-size: contain;
-    z-index: -1;
+    /* z-index: -1; */
 }
 
 .third-banner {
@@ -1452,7 +1453,7 @@ section.platform-sec::before {
 .third-sec {
     /* background-image: url(../images/cta-add-banner.png); */
     background: linear-gradient(178deg, #000000 5%, #000000 71%, #be5264 117%);
-    padding: 40px 0px 40px;
+    padding: 40px 0px 60px;
     color: #fff;
     background-position: center;
     background-repeat: no-repeat;
@@ -1609,10 +1610,7 @@ h2.sub-title span {
 }
 
 .trees-logo-img ul li img {
-    width: 150px;
-    margin: 5px;
-    box-shadow: 1px -1px 3px 1px #a1a1a1;
-    border-radius: 100%;
+    width: 174px;
 }
 
 /* .agency-section::after {
@@ -2615,4 +2613,37 @@ button.btn.submitbtn:hover {
     transition: .5s;
     background: #000;
     color: #fff;
+}
+.cta-images {
+    position: relative;
+    height: 100%;
+}
+
+.cta-images img {
+    position: absolute;
+    bottom: -17%;
+    width: 101%;
+}
+.cta-images1 {
+    position: relative;
+    height: 100%;
+}
+
+
+.cta-images1 img {
+    position: absolute;
+    bottom: -17%;
+    width: 100%;
+}
+.cta-image2 {
+    position: relative;
+    height: 100%;
+}
+
+.cta-image2 img {
+    position: absolute;
+    bottom: -35%;
+    width: 80%;
+    right: 0;
+    /* z-index: 1111; */
 }
