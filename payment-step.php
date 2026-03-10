@@ -35,6 +35,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_method']) && $_PO
     }
 }
 
+// 3b. Handle Square Payment Submission
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_method']) && $_POST['pay_method'] === 'square' && $linkData) {
+    
+//     $checkout = getSquareCheckoutUrl($linkData, $urlPkg, $urlAmt , $leadId , "pkg");
+
+//     if (isset($checkout['url'])) {
+//         header("Location: " . $checkout['url']);
+//         exit;
+//     } else {
+//         $error = $checkout['error'];
+//     }
+// }
+
 // 4. Handle Post-Payment Redirection/Verification
 if (isset($_GET['status']) && $_GET['status'] == 'success' && $leadId && $linkData && $linkData['status'] == 'pending') {
     verifyPaymentWithCrm($leadId);
@@ -52,6 +65,14 @@ $packageData = getPackageFeatures($urlAmt);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment - Logo Element Design</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KW7SCQJP');</script>
+<!-- End Google Tag Manager -->
+    
     <style>
         .split-card {
             display: flex;
@@ -173,35 +194,18 @@ $packageData = getPackageFeatures($urlAmt);
         }
     </style>
     
-         <!-- Google Tag Manager -->
-<script>
- <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KW7SCQJP');</script>
-<!-- End Google Tag Manager -->
-</script>
+
 
 </head>
 
 <body>
-    <!-- Google Tag Manager (noscript) -->
+
+<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KW7SCQJP"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 
-   <!-- Start of LiveChat (www.livechat.com) code -->
-<script>
-    window._lc = window._lc || {};
-    window.__lc.license = 19454392;
-    window.__lc.integration_name = "manual_onboarding";
-    window.__lc.product_name = "livechat";
-    ;(function(n,t,c){function i(n){return e.h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[LiveChatWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0,n.type="text/javascript",n.src="https://cdn.livechatinc.com/tracking.js",t.head.appendChild(n)}};!n._lc.asyncInit&&e.init(),n.LiveChatWidget=n.LiveChatWidget||e}(window,document,[].slice))
-</script>
-<!-- End of LiveChat code -->
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -216,10 +220,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KW7SCQJP"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
 
 
@@ -288,45 +288,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <div class="alert alert-danger mb-3 small"><?= htmlspecialchars($error) ?></div>
                     <?php endif; ?>
 
-                    <!--<div class="payment-tabs mb-4">-->
-                    <!--    <div class="btn-group w-100" role="group">-->
-                    <!--        <input type="radio" class="btn-check" name="payment_choice" id="pay_paypal" checked>-->
-                    <!--        <label class="btn btn-outline-primary" for="pay_paypal">PayPal</label>-->
+                    <!-- <div class="payment-tabs mb-4">
+                        <div class="btn-group w-100" role="group">
+                            <input type="radio" class="btn-check" name="payment_choice" id="pay_paypal" checked>
+                            <label class="btn btn-outline-primary" for="pay_paypal">PayPal</label>
 
-                    <!--        <input type="radio" class="btn-check" name="payment_choice" id="pay_clover">-->
-                    <!--        <label class="btn btn-outline-primary" for="pay_clover">Credit / Debit Card</label>-->
-                    <!--    </div>-->
-                    <!--</div>-->
- 
+                            <input type="radio" class="btn-check" name="payment_choice" id="pay_square">
+                            <label class="btn btn-outline-primary" for="pay_square">Square</label>
+                        </div>
+                    </div>
+  -->
                     <div id="paypal-section">
                         <div id="paypal-button-container"></div>
                     </div>
 
-                    <div id="clover-section" style="display: none;">
+                    <div id="square-section" style="display: none;">
                         <form method="POST">
-                            <input type="hidden" name="pay_method" value="clover">
-                            <button type="submit" class="btn-pay" style="background: #28a745;">
-                                <span style="margin-right: 8px;">💳</span> Pay with Credit Card
+                            <input type="hidden" name="pay_method" value="square">
+                            <button type="submit" class="btn-pay" style="background: #006aff;">
+                                <span style="margin-right: 8px;">💳</span> Pay with Square
                             </button>
                         </form>
-                        <div class="text-center mt-3" style="margin-top:5px">
-                            <img src="https://cdn.jsdelivr.net/gh/aaronfagan/svg-credit-card-payment-icons@master/flat/visa.svg"
-                                height="24" class="mx-1">
-                            <img src="https://cdn.jsdelivr.net/gh/aaronfagan/svg-credit-card-payment-icons@master/flat/mastercard.svg"
-                                height="24" class="mx-1">
-                            <img src="https://cdn.jsdelivr.net/gh/aaronfagan/svg-credit-card-payment-icons@master/flat/amex.svg"
-                                height="24" class="mx-1">
-                            <img src="https://cdn.jsdelivr.net/gh/aaronfagan/svg-credit-card-payment-icons@master/flat/discover.svg"
-                                height="24" class="mx-1">
-                        </div>
                     </div>
 
                     <script>
                         document.addEventListener('DOMContentLoaded', () => {
-                            const pRadio = document.getElementById('pay_paypal'), cRadio = document.getElementById('pay_clover');
-                            const pSec = document.getElementById('paypal-section'), cSec = document.getElementById('clover-section');
-                            pRadio.addEventListener('change', () => { pSec.style.display = 'block'; cSec.style.display = 'none'; });
-                            cRadio.addEventListener('change', () => { pSec.style.display = 'none'; cSec.style.display = 'block'; });
+                            const pRadio = document.getElementById('pay_paypal'), 
+                                  sqRadio = document.getElementById('pay_square');
+                            const pSec = document.getElementById('paypal-section'), 
+                                  sqSec = document.getElementById('square-section');
+                            
+                            if (pRadio) pRadio.addEventListener('change', () => { 
+                                pSec.style.display = 'block'; 
+                                sqSec.style.display = 'none';
+                            });
+                            
+                            if (sqRadio) sqRadio.addEventListener('change', () => { 
+                                pSec.style.display = 'none'; 
+                                sqSec.style.display = 'block';
+                            });
                         });
                     </script>
                 </div>

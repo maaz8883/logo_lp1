@@ -21,7 +21,7 @@ function getLeadId() {
  */
 function getPackageDetails() {
     const pkg = localStorage.getItem('selected_package') || 'Basic';
-    const amt = localStorage.getItem('selected_amount') || '19'; // Default to 35
+    const amt = localStorage.getItem('selected_amount') || '35'; // Default to 35
     return { pkg, amt };
 }
 
@@ -120,7 +120,7 @@ async function submitStep1(e) {
     // Ensure default package is set if not already
     let { pkg, amt } = getPackageDetails();
     if (!localStorage.getItem('selected_package')) {
-        setPackageDetails('Basic', '19');
+        setPackageDetails('Basic', '35');
     }
 
     const data = {
@@ -261,7 +261,8 @@ async function submitStep4() {
  * Step 5: Package Selection (CRM Sync)
  */
 async function submitStep5(leadIdOverride, pkgOverride) {
-    const leadId = getLeadId();
+    // const leadId = getLeadId();
+    const leadId = leadIdOverride;
     if (!leadId) return;
 
     const { pkg: storedPkg } = getPackageDetails();

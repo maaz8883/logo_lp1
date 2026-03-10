@@ -107,6 +107,79 @@ function verifyPaymentWithCrm($id) {
     return $response;
 }
 
+function getSquareCheckoutUrl($linkData, $service, $amount, $uuid, $type) {
+  
+   
+    $squareAccessToken = $linkData['brand']['square_access_token'] ?? null;
+    $squareLocationId = $linkData['brand']['square_location_id'] ?? null;
+    $squareEnvironment = $linkData['brand']['square_environment'] ?? 'sandbox';
+    
+    if (!$squareAccessToken || !$squareLocationId) {
+        return ['error' => 'Square payment is not configured for this brand.'];
+    }
+    
+    // Determine Square API URL based on environment
+    $squareApiUrl = ($squareEnvironment === 'production') 
+        ? 'https://connect.squareup.com/v2/online-checkout/payment-links'
+        : 'https://connect.squareupsandbox.com/v2/online-checkout/payment-links';
+    
+    // Build redirect URLs
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'];
+    $baseUrl = $protocol . '://' . $host;
+    
+    if ($type === 'pkg') {
+        $redirectUrl = $baseUrl . '/payment-step.php?status=success&id=' . $uuid . '&pkg=' . urlencode($service) . '&amt=' . $amount;
+    } else {
+        $redirectUrl = $baseUrl . '/pay.php?status=success&id=' . $uuid;
+    }
+    
+    // Prepare order data
+    $orderData = [
+        'idempotency_key' => uniqid('square_', true),
+        'quick_pay' => [
+            'name' => is_array($service) ? implode(', ', $service) : $service,
+            'price_money' => [
+                'amount' => (int)($amount * 100), // Square uses cents
+                'currency' => 'USD'
+            ],
+            'location_id' => $squareLocationId
+        ],
+        'checkout_options' => [
+            'redirect_url' => $redirectUrl,
+            'ask_for_shipping_address' => false
+        ]
+    ];
+    
+    // Make API request to Square
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $squareApiUrl);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($orderData));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Square-Version: 2024-12-18',
+        'Authorization: Bearer ' . $squareAccessToken,
+        'Content-Type: application/json'
+    ]);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    if ($http_code === 200) {
+        $data = json_decode($response, true);
+        if (isset($data['payment_link']['url'])) {
+            return ['url' => $data['payment_link']['url']];
+        }
+    }
+    
+    $errorData = json_decode($response, true);
+    $errorMsg = $errorData['errors'][0]['detail'] ?? 'Failed to create Square checkout';
+    return ['error' => $errorMsg];
+}
+
 function getBriefFormUrl($leadId, $baseUrl = null) {
     if (!$leadId) {
         return ['error' => 'Lead ID is required'];
