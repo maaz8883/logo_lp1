@@ -17,9 +17,11 @@ if ($hostname === 'localhost' || $hostname === '127.0.0.1') {
 $uuid = $_GET['id'] ?? null;
 $error = null;
 $linkData = null;
+$selectedMerchant = '';
 
 if ($uuid) {
     $linkData = PaymentDetails_uuid($uuid);
+
     if (!$linkData) {
         $error = "Payment link not found or expired.";
     } else {
@@ -27,6 +29,13 @@ if ($uuid) {
         $paypalClientId = $linkData['brand']['paypal_client_id'] ?? null;
         $paypalMode = $linkData['brand']['paypal_mode'] ?? 'sandbox';
         $paypalEnvironment = $linkData['brand']['paypal_environment'] ?? 'sandbox';
+        $stripePublishableKey = $linkData['brand']['stripe_publishable_key']
+            ?? $linkData['brand']['stripe_publishable']
+            ?? $linkData['brand']['stripe_pk']
+            ?? $linkData['stripe_publishable_key']
+            ?? $linkData['stripe_publishable']
+            ?? null;
+        $selectedMerchant = strtolower((string) ($linkData['merchant'] ?? ''));
     }
 } else {
     $error = "No Payment ID provided.";
@@ -178,9 +187,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 
-    <?php if ($linkData && $linkData['merchant'] === 'paypal' && $paypalClientId): ?>
+    <?php if ($linkData && $selectedMerchant === 'paypal' && $paypalClientId): ?>
         <!-- Dynamically load PayPal SDK with correct client ID -->
         <script src="https://www.paypal.com/sdk/js?client-id=<?= htmlspecialchars($paypalClientId) ?>&currency=USD"></script>
+    <?php endif; ?>
+
+    <?php if ($selectedMerchant === 'stripe' && !empty($stripePublishableKey)): ?>
+        <script src="https://js.stripe.com/v3/"></script>
     <?php endif; ?>
 
 
@@ -453,8 +466,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
             <div class="payment-buttons">
                 <!-- PayPal Payment Option -->
-                <?php if (!empty($paypalClientId)): ?>
+                <?php if ($selectedMerchant === 'paypal' && !empty($paypalClientId)): ?>
                     <div id="paypal-button-container"></div>
+                <?php endif; ?>
+
+                <!-- Stripe Payment Element (embedded, same page — like PayPal) -->
+                <?php if ($selectedMerchant === 'stripe' && !empty($stripePublishableKey)): ?>
+                   
+                    <div id="stripe-area" style="margin-top: 16px; width: 100%;">
+                        <form id="stripe-payment-form">
+                            <div id="stripe-payment-element"></div>
+                            <button type="submit" id="stripe-submit-btn" class="btn-black-style" style="background: #635bff; width: 100%; margin-top: 12px;">
+                                <span class="btn-icon-card">💳</span> Pay with card
+                            </button>
+                            <div id="stripe-payment-message" class="text-danger small mt-2" role="alert"></div>
+                        </form>
+                    </div>
                 <?php endif; ?>
 
                 <!-- Square Payment Option -->
@@ -487,7 +514,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <?php endif; ?>
             </div>
 
-            <?php if (!empty($paypalClientId)): ?>
+            <?php if ($selectedMerchant === 'paypal' && !empty($paypalClientId)): ?>
             <script>
                 paypal.Buttons({
                     style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
@@ -526,6 +553,133 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
                     }
                 }).render('#paypal-button-container');
+            </script>
+            <?php endif; ?>
+
+            <?php if ($selectedMerchant === 'stripe' && !empty($stripePublishableKey) && !empty($uuid)): ?>
+            <script>
+            (function () {
+                var stripe = Stripe(<?= json_encode($stripePublishableKey) ?>);
+                var uuid = <?= json_encode($uuid) ?>;
+                var verifyUrl = <?= json_encode($baseCrmUrl . 'api/payment-links/' . $uuid . '/verify') ?>;
+
+                function showLoader(show) {
+                    var el = document.getElementById('payment-loader');
+                    if (el) el.style.display = show ? 'flex' : 'none';
+                }
+
+                function msgEl() {
+                    return document.getElementById('stripe-payment-message');
+                }
+
+                var params = new URLSearchParams(window.location.search);
+                if (params.get('stripe_payment_return') === '1' && params.get('payment_intent')) {
+                    showLoader(true);
+                    var piId = params.get('payment_intent');
+                    fetch(verifyUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify({ paymentIntentId: piId, orderID: piId })
+                    })
+                        .then(function (r) { return r.json(); })
+                        .then(function (data) {
+                            if (data.status === 'success') {
+                                window.location.replace(
+                                    window.location.pathname + '?status=success&id=' + encodeURIComponent(uuid)
+                                );
+                            } else {
+                                showLoader(false);
+                                alert('Payment verification failed: ' + (data.error || 'Unknown error'));
+                            }
+                        })
+                        .catch(function () {
+                            showLoader(false);
+                            alert('An error occurred while verifying the payment.');
+                        });
+                    return;
+                }
+
+                var form = document.getElementById('stripe-payment-form');
+                if (!form) return;
+
+                var fd = new FormData();
+                fd.append('uuid', uuid);
+                fetch('stripe-payment-intent.php', { method: 'POST', body: fd })
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (data.error || !data.clientSecret) {
+                            if (msgEl()) msgEl().textContent = data.error || 'Could not start payment.';
+                            return;
+                        }
+                        var elements = stripe.elements({
+                            clientSecret: data.clientSecret,
+                            appearance: { theme: 'stripe' }
+                        });
+                        var paymentElement = elements.create('payment');
+                        paymentElement.mount('#stripe-payment-element');
+
+                        var returnUrl =
+                            window.location.origin +
+                            window.location.pathname +
+                            '?id=' +
+                            encodeURIComponent(uuid) +
+                            '&stripe_payment_return=1';
+
+                        form.addEventListener('submit', function (ev) {
+                            ev.preventDefault();
+                            if (msgEl()) msgEl().textContent = '';
+                            showLoader(true);
+                            stripe
+                                .confirmPayment({
+                                    elements: elements,
+                                    confirmParams: { return_url: returnUrl },
+                                    redirect: 'if_required'
+                                })
+                                .then(function (result) {
+                                    if (result.error) {
+                                        showLoader(false);
+                                        if (msgEl()) msgEl().textContent = result.error.message || 'Payment failed.';
+                                        return;
+                                    }
+                                    var pi = result.paymentIntent;
+                                    if (pi && pi.status === 'succeeded') {
+                                        fetch(verifyUrl, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Accept': 'application/json'
+                                            },
+                                            body: JSON.stringify({ paymentIntentId: pi.id, orderID: pi.id })
+                                        })
+                                            .then(function (r) { return r.json(); })
+                                            .then(function (d) {
+                                                if (d.status === 'success') {
+                                                    window.location.href =
+                                                        window.location.pathname +
+                                                        '?status=success&id=' +
+                                                        encodeURIComponent(uuid);
+                                                } else {
+                                                    showLoader(false);
+                                                    alert(
+                                                        'Payment verification failed: ' +
+                                                            (d.error || 'Unknown error')
+                                                    );
+                                                }
+                                            })
+                                            .catch(function () {
+                                                showLoader(false);
+                                                alert('An error occurred while verifying the payment.');
+                                            });
+                                    } else {
+                                        showLoader(false);
+                                    }
+                                });
+                        });
+                    })
+                    .catch(function () {
+                        if (msgEl()) msgEl().textContent = 'Could not load payment form.';
+                    });
+            })();
             </script>
             <?php endif; ?>
         <?php endif; ?>

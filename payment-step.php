@@ -10,11 +10,42 @@ $urlPkg = $_GET['pkg'] ?? null;
 $urlAmt = $_GET['amt'] ?? 35;
 $error = null;
 $linkData = null;
+$paypalClientId = null;
+$stripePublishableKey = null;
+$selectedMerchant = '';
 
-// 2. Data Fetching
+// 2. Data Fetching — PayPal: /leads/{uuid}/paypal-config | Stripe: /leads/{uuid}/stripe-config
 if (!empty($leadId)) {
     $paypalConfig = getPayPalConfigByLeadUuid($leadId);
-    $paypalClientId = $paypalConfig['client_id'];
+    $stripeConfig = getStripeConfigByLeadUuid($leadId);
+
+    if (!empty($paypalConfig['success'])) {
+        $paypalClientId = $paypalConfig['client_id'] ?? null;
+        $selectedMerchant = strtolower((string) ($paypalConfig['lead']['merchant'] ?? $paypalConfig['brand']['merchant'] ?? ''));
+    }
+
+    if (!empty($stripeConfig['success'])) {
+        $stripePublishableKey = $stripeConfig['publishable_key'] ?? null;
+        if ($selectedMerchant === '') {
+            $selectedMerchant = strtolower((string) ($stripeConfig['lead']['merchant'] ?? $stripeConfig['brand']['merchant'] ?? ''));
+        }
+    }
+
+    if ($stripePublishableKey === null && !empty($paypalConfig['success'])) {
+        $brand = $paypalConfig['brand'] ?? [];
+        $stripePublishableKey = $brand['stripe_publishable_key']
+            ?? $brand['stripe_publishable']
+            ?? $brand['stripe_pk']
+            ?? null;
+    }
+
+    if ($selectedMerchant === '') {
+        if (!empty($paypalClientId)) {
+            $selectedMerchant = 'paypal';
+        } elseif (!empty($stripePublishableKey)) {
+            $selectedMerchant = 'stripe';
+        }
+    }
 }
 
 // 3. Handle Clover Payment Submission
@@ -65,7 +96,6 @@ $packageData = getPackageFeatures($urlAmt);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment - Logo Element Design</title>
     <link rel="stylesheet" href="style.css">
-    
     <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -73,8 +103,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KW7SCQJP');</script>
 <!-- End Google Tag Manager -->
-
-
+    
     <style>
         .split-card {
             display: flex;
@@ -195,14 +224,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             -webkit-text-fill-color: transparent;
         }
     </style>
-    
-  
+
+    <?php if (!empty($leadId) && $selectedMerchant === 'paypal' && !empty($paypalClientId)): ?>
+        <script src="https://www.paypal.com/sdk/js?client-id=<?= htmlspecialchars($paypalClientId) ?>&currency=USD"></script>
+    <?php endif; ?>
+    <?php if (!empty($leadId) && $selectedMerchant === 'stripe' && !empty($stripePublishableKey)): ?>
+        <script src="https://js.stripe.com/v3/"></script>
+    <?php endif; ?>
 
 </head>
 
 <body>
-
-<!-- Google Tag Manager (noscript) -->
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KW7SCQJP"
@@ -302,9 +334,23 @@ document.addEventListener("DOMContentLoaded", function () {
                         </div>
                     </div>
   -->
+                    <?php if ($selectedMerchant === 'paypal' && !empty($paypalClientId)): ?>
                     <div id="paypal-section">
                         <div id="paypal-button-container"></div>
                     </div>
+                    <?php endif; ?>
+
+                    <?php if ($selectedMerchant === 'stripe' && !empty($stripePublishableKey)): ?>
+                    <div id="stripe-section" style="margin-top: 8px;">
+                        <form id="stripe-payment-form">
+                            <div id="stripe-payment-element"></div>
+                            <button type="submit" class="btn-pay" style="background: #635bff; margin-top: 12px;">
+                                <span style="margin-right: 8px;">💳</span> Pay with card
+                            </button>
+                            <div id="stripe-payment-message" class="text-danger small mt-2" role="alert"></div>
+                        </form>
+                    </div>
+                    <?php endif; ?>
 
                     <div id="square-section" style="display: none;">
                         <form method="POST">
@@ -348,28 +394,130 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
 
     <script src="api.js"></script>
-     <!--// test mode -->
-    <!-- <script src="https://www.paypal.com/sdk/js?client-id=AWRCRUFnNtXfdNCut8-YeeXQc7CDe-2FQmVt4jwPg3Cbl1TJ6pECsjdg8ITRSL-PPbIcVEOcmnptBAZe&currency=USD"></script>  -->
-    <!--// live mode-->
-    <!-- <script src="https://www.paypal.com/sdk/js?client-id=AWf9KL0KBi4GhT2rzRvazWLiDVxV8e1MwwSG6CrrM9Bh8gvdyfpG2vgcBxCrJQgXY5l3hiH3m774Q_e_&currency=USD"></script> -->
-    <script src="https://www.paypal.com/sdk/js?client-id=<?= $paypalClientId ?>&currency=USD"></script>
-    <!-- <script src="https://www.paypal.com/sdk/js?client-id=<?= $paypalClientId ?>&currency=USD"></script> -->
+
+    <?php if ($selectedMerchant === 'paypal' && !empty($paypalClientId)): ?>
     <script>
         paypal.Buttons({
             style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
             createOrder: (data, actions) => actions.order.create({
                 purchase_units: [{
-                    amount: { value: '<?= $urlAmt ?>' },
+                    amount: { value: '<?= htmlspecialchars((string) $urlAmt) ?>' },
                     description: 'Signup Payment for <?= htmlspecialchars($packageData['name']) ?>'
                 }]
             }),
             onApprove: (data, actions) => actions.order.capture().then(async (details) => {
                 document.getElementById('payment-loader').style.display = 'flex';
-                try { await submitStep5('<?= $leadId ?>', '<?= $urlPkg ?>'); } catch (e) { }
-                window.location.href = "thank-you.php?status=success&id=<?= $leadId ?>&pkg=<?= urlencode($urlPkg) ?>";
+                try { await submitStep5(<?= json_encode($leadId) ?>, <?= json_encode($urlPkg) ?>); } catch (e) { }
+                window.location.href = "thank-you.php?status=success&id=<?= urlencode($leadId) ?>&pkg=<?= urlencode((string) $urlPkg) ?>";
             })
         }).render('#paypal-button-container');
     </script>
+    <?php endif; ?>
+
+    <?php if ($selectedMerchant === 'stripe' && !empty($stripePublishableKey) && !empty($leadId)): ?>
+    <script>
+    (function () {
+        var stripe = Stripe(<?= json_encode($stripePublishableKey) ?>);
+        var leadId = <?= json_encode($leadId) ?>;
+        var pkg = <?= json_encode($urlPkg) ?>;
+        var amt = <?= json_encode((string) $urlAmt) ?>;
+
+        function showLoader(show) {
+            var el = document.getElementById('payment-loader');
+            if (el) el.style.display = show ? 'flex' : 'none';
+        }
+        function msgEl() {
+            return document.getElementById('stripe-payment-message');
+        }
+        function goThankYou() {
+            window.location.href =
+                'thank-you.php?status=success&id=' +
+                encodeURIComponent(leadId) +
+                '&pkg=' +
+                encodeURIComponent(pkg || '');
+        }
+
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('stripe_payment_return') === '1' && params.get('payment_intent')) {
+            showLoader(true);
+            (async function () {
+                try {
+                    await submitStep5(leadId, pkg);
+                } catch (e) { }
+                goThankYou();
+            })();
+            return;
+        }
+
+        var form = document.getElementById('stripe-payment-form');
+        if (!form) return;
+
+        var fd = new FormData();
+        fd.append('lead_id', leadId);
+        fd.append('amount', amt);
+        fd.append('pkg', pkg || '');
+
+        fetch('stripe-payment-intent-lead.php', { method: 'POST', body: fd })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (data.error || !data.clientSecret) {
+                    if (msgEl()) msgEl().textContent = data.error || 'Could not start payment.';
+                    return;
+                }
+                var elements = stripe.elements({
+                    clientSecret: data.clientSecret,
+                    appearance: { theme: 'stripe' }
+                });
+                var paymentElement = elements.create('payment');
+                paymentElement.mount('#stripe-payment-element');
+
+                var returnUrl =
+                    window.location.origin +
+                    window.location.pathname +
+                    '?id=' +
+                    encodeURIComponent(leadId) +
+                    '&pkg=' +
+                    encodeURIComponent(pkg || '') +
+                    '&amt=' +
+                    encodeURIComponent(amt) +
+                    '&stripe_payment_return=1';
+
+                form.addEventListener('submit', function (ev) {
+                    ev.preventDefault();
+                    if (msgEl()) msgEl().textContent = '';
+                    showLoader(true);
+                    stripe
+                        .confirmPayment({
+                            elements: elements,
+                            confirmParams: { return_url: returnUrl },
+                            redirect: 'if_required'
+                        })
+                        .then(function (result) {
+                            if (result.error) {
+                                showLoader(false);
+                                if (msgEl()) msgEl().textContent = result.error.message || 'Payment failed.';
+                                return;
+                            }
+                            var pi = result.paymentIntent;
+                            if (pi && pi.status === 'succeeded') {
+                                (async function () {
+                                    try {
+                                        await submitStep5(leadId, pkg);
+                                    } catch (e) { }
+                                    goThankYou();
+                                })();
+                            } else {
+                                showLoader(false);
+                            }
+                        });
+                });
+            })
+            .catch(function () {
+                if (msgEl()) msgEl().textContent = 'Could not load payment form.';
+            });
+    })();
+    </script>
+    <?php endif; ?>
 </body>
 
 </html>

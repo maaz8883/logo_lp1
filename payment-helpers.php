@@ -51,6 +51,50 @@ function getPayPalConfigByLeadUuid($leadUuid) {
     ];
 }
 
+/**
+ * Same pattern as getPayPalConfigByLeadUuid — Laravel:
+ * Route::get('/leads/{uuid}/stripe-config', ...);
+ */
+function getStripeConfigByLeadUuid($leadUuid) {
+    $url = BASE_URL . 'api/leads/' . $leadUuid . '/stripe-config';
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $error_msg = curl_error($ch);
+    curl_close($ch);
+
+    if ($http_code === 200) {
+        $data = json_decode($response, true);
+        if (isset($data['success']) && $data['success'] && !empty($data['stripe'])) {
+            $stripe = $data['stripe'];
+            return [
+                'success' => true,
+                'publishable_key' => $stripe['publishable_key'] ?? $stripe['publishable'] ?? null,
+                'secret_key' => $stripe['secret_key'] ?? $stripe['stripe_secret_key'] ?? null,
+                'mode' => $stripe['mode'] ?? null,
+                'environment' => $stripe['environment'] ?? null,
+                'lead' => $data['lead'] ?? null,
+                'brand' => $data['brand'] ?? [],
+            ];
+        }
+    }
+
+    return [
+        'success' => false,
+        'error' => 'Unable to fetch Stripe configuration',
+        'http_code' => $http_code,
+        'error_msg' => $error_msg
+    ];
+}
+
 function PaymentDetails_uuid($uuid) {
     $url = CRM_API_URL_PAYMENT . $uuid;
     $ch = curl_init();
@@ -177,6 +221,126 @@ function getSquareCheckoutUrl($linkData, $service, $amount, $uuid, $type) {
     
     $errorData = json_decode($response, true);
     $errorMsg = $errorData['errors'][0]['detail'] ?? 'Failed to create Square checkout';
+    return ['error' => $errorMsg];
+}
+
+/**
+ * Creates a Stripe PaymentIntent for embedded Payment Element (not Checkout redirect).
+ */
+function createStripePaymentIntent($linkData, $uuid) {
+    $brand = $linkData['brand'] ?? [];
+    $stripeSecretKey = $brand['stripe_secret_key']
+        ?? $brand['stripe_secret']
+        ?? $brand['stripe_sk']
+        ?? $linkData['stripe_secret_key']
+        ?? $linkData['stripe_secret']
+        ?? null;
+
+    if (!$stripeSecretKey) {
+        return ['error' => 'Stripe payment is not configured for this brand.'];
+    }
+
+    $amount = (float) ($linkData['amount'] ?? 0);
+    if ($amount <= 0) {
+        return ['error' => 'Invalid payment amount.'];
+    }
+
+    $amountCents = (int) round($amount * 100);
+    $description = 'Payment for Invoice #' . substr((string) $uuid, 0, 8);
+
+    $postFields = [
+        'amount' => (string) $amountCents,
+        'currency' => 'usd',
+        'automatic_payment_methods[enabled]' => 'true',
+        'excluded_payment_method_types[0]' => 'crypto',
+        'description' => $description,
+        'metadata[payment_link_uuid]' => (string) $uuid,
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_intents');
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Authorization: Bearer ' . $stripeSecretKey,
+        'Content-Type: application/x-www-form-urlencoded'
+    ]);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_code === 200) {
+        $data = json_decode($response, true);
+        if (!empty($data['client_secret'])) {
+            return ['clientSecret' => $data['client_secret']];
+        }
+    }
+
+    $errorData = json_decode($response, true);
+    $errorMsg = $errorData['error']['message'] ?? 'Failed to create Stripe payment';
+    return ['error' => $errorMsg];
+}
+
+/**
+ * Stripe PaymentIntent for package / lead checkout (payment-step.php).
+ */
+function createStripePaymentIntentForLead($brand, $leadUuid, $amount, $pkgName) {
+    $stripeSecretKey = $brand['stripe_secret_key']
+        ?? $brand['stripe_secret']
+        ?? $brand['stripe_sk']
+        ?? null;
+
+    if (!$stripeSecretKey) {
+        return ['error' => 'Stripe payment is not configured for this brand.'];
+    }
+
+    $amount = (float) $amount;
+    if ($amount <= 0) {
+        return ['error' => 'Invalid payment amount.'];
+    }
+
+    $amountCents = (int) round($amount * 100);
+    $pkgLabel = is_string($pkgName) ? trim($pkgName) : '';
+    $description = 'Signup Payment' . ($pkgLabel !== '' ? ' - ' . $pkgLabel : '');
+
+    $postFields = [
+        'amount' => (string) $amountCents,
+        'currency' => 'usd',
+        'automatic_payment_methods[enabled]' => 'true',
+        'excluded_payment_method_types[0]' => 'crypto',
+        'description' => $description,
+        'metadata[lead_uuid]' => (string) $leadUuid,
+        'metadata[context]' => 'package_lead',
+        'metadata[package]' => $pkgLabel,
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_intents');
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Authorization: Bearer ' . $stripeSecretKey,
+        'Content-Type: application/x-www-form-urlencoded'
+    ]);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_code === 200) {
+        $data = json_decode($response, true);
+        if (!empty($data['client_secret'])) {
+            return ['clientSecret' => $data['client_secret']];
+        }
+    }
+
+    $errorData = json_decode($response, true);
+    $errorMsg = $errorData['error']['message'] ?? 'Failed to create Stripe payment';
     return ['error' => $errorMsg];
 }
 
