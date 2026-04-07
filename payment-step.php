@@ -4,6 +4,37 @@
 require_once 'packages.php';
 require_once 'payment-helpers.php';
 
+// Stripe PaymentIntent API — same URL as this page (avoids live redirects that turn POST→GET on extensionless URLs)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Allow: POST, OPTIONS');
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Max-Age: 86400');
+    http_response_code(204);
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stripe_intent_lead'])) {
+    header('Content-Type: application/json');
+    $leadIdPost = $_POST['lead_id'] ?? null;
+    $amountPost = $_POST['amount'] ?? null;
+    $pkgPost = $_POST['pkg'] ?? '';
+    if (!$leadIdPost || $amountPost === null || $amountPost === '') {
+        echo json_encode(['error' => 'Missing parameters']);
+        exit;
+    }
+    $config = getStripeConfigByLeadUuid($leadIdPost);
+    if (empty($config['success'])) {
+        echo json_encode(['error' => 'Unable to load lead payment configuration']);
+        exit;
+    }
+    $brand = $config['brand'] ?? [];
+    if (!empty($config['secret_key'])) {
+        $brand['stripe_secret_key'] = $config['secret_key'];
+    }
+    echo json_encode(createStripePaymentIntentForLead($brand, $leadIdPost, (float) $amountPost, $pkgPost));
+    exit;
+}
+
 // 1. Initialize Inputs
 $leadId = $_GET['id'] ?? '';
 $urlPkg = $_GET['pkg'] ?? null;
@@ -453,11 +484,17 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!form) return;
 
         var fd = new FormData();
+        fd.append('stripe_intent_lead', '1');
         fd.append('lead_id', leadId);
         fd.append('amount', amt);
         fd.append('pkg', pkg || '');
 
-        fetch('stripe-payment-intent-lead.php', { method: 'POST', body: fd })
+        fetch(window.location.origin + window.location.pathname, {
+            method: 'POST',
+            body: fd,
+            credentials: 'same-origin',
+            cache: 'no-store'
+        })
             .then(function (r) { return r.json(); })
             .then(function (data) {
                 if (data.error || !data.clientSecret) {

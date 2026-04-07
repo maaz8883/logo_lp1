@@ -2,6 +2,31 @@
 
 require_once 'payment-helpers.php';
 
+// Stripe PaymentIntent — same URL as this page (avoids live redirects POST→GET on extensionless /stripe-payment-intent)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Allow: POST, OPTIONS');
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Max-Age: 86400');
+    http_response_code(204);
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stripe_intent_payment_link'])) {
+    header('Content-Type: application/json');
+    $uuidPost = $_POST['uuid'] ?? null;
+    if (!$uuidPost) {
+        echo json_encode(['error' => 'Missing payment id']);
+        exit;
+    }
+    $linkDataPost = PaymentDetails_uuid($uuidPost);
+    if (!$linkDataPost || ($linkDataPost['status'] ?? '') !== 'pending') {
+        echo json_encode(['error' => 'Invalid or expired payment link']);
+        exit;
+    }
+    echo json_encode(createStripePaymentIntent($linkDataPost, $uuidPost));
+    exit;
+}
+
 // $baseCrmUrl = 'https://elementdesignagency.com/crm/';
 $hostname = $_SERVER['HTTP_HOST'];
 
@@ -603,8 +628,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!form) return;
 
                 var fd = new FormData();
+                fd.append('stripe_intent_payment_link', '1');
                 fd.append('uuid', uuid);
-                fetch('stripe-payment-intent.php', { method: 'POST', body: fd })
+                fetch(window.location.origin + window.location.pathname, {
+                    method: 'POST',
+                    body: fd,
+                    credentials: 'same-origin',
+                    cache: 'no-store'
+                })
                     .then(function (r) { return r.json(); })
                     .then(function (data) {
                         if (data.error || !data.clientSecret) {
