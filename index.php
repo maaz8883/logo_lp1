@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html>
 
     <head>
@@ -2776,6 +2776,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <script src="assets/js/video.min.js"></script>
         <script src="assets/js/custom.js"></script>
         <script src="api.js?v=<?= time() ?>"></script>
+        
+        <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  function captureData(form) {
+    const emailField =
+      form.querySelector('input[type="email"]') ||
+      form.querySelector('input[name="email"]') ||
+      form.querySelector('input[name="em"]');
+
+    const phoneField =
+      form.querySelector('input[type="tel"]') ||
+      form.querySelector('input[name="phone"]') ||
+      form.querySelector('input[name="pn"]');
+
+    const email = emailField ? emailField.value.trim().toLowerCase() : '';
+    const phone = phoneField ? phoneField.value.trim() : '';
+
+    if (email) localStorage.setItem('user_email', email);
+    if (phone) localStorage.setItem('user_phone', phone);
+  }
+
+  const forms = document.querySelectorAll('form');
+
+  forms.forEach(function(form) {
+
+    // Normal submit
+    form.addEventListener('submit', function () {
+      captureData(form);
+    });
+
+    // Extra safety for AJAX / custom forms
+    const btn = form.querySelector('button[type="submit"], input[type="submit"]');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        captureData(form);
+      });
+    }
+
+  });
+
+});
+</script>
 
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/js/all.min.js"></script> -->
 
