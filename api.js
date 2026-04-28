@@ -451,6 +451,31 @@ async function submitLeadBrief(formData) {
     }
 }
 
+/**
+ * Submit Addons for Lead
+ */
+async function submitAddons(leadId, addons) {
+    if (!leadId) {
+        throw new Error('Lead ID is required');
+    }
+
+    if (!addons || addons.length === 0) {
+        throw new Error('At least one addon must be selected');
+    }
+
+    const data = {
+        addons: addons
+    };
+
+    try {
+        const result = await apiRequest(`/api/leads/${leadId}/addons`, 'POST', data);
+        return result;
+    } catch (error) {
+        console.error('Failed to submit addons:', error);
+        throw error;
+    }
+}
+
 // Utility to handle style card selection (Single Select)
 document.addEventListener('DOMContentLoaded', () => {
     // Logo Style Page Interactions
@@ -472,4 +497,84 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 0);
         });
     });
+
+    // Addon Page Interactions
+    if (document.querySelector('.addon-section')) {
+        let total = 0;
+        
+        // Handle checkbox changes for addon selection
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'checkbox' && e.target.closest('.addron-box')) {
+                const addonPrice = parseInt(e.target.value) || 0;
+                
+                if (e.target.checked) {
+                    total += addonPrice;
+                } else {
+                    total -= addonPrice;
+                }
+                
+                // Update total display
+                const totalElement = document.querySelector('.addon-total');
+                if (totalElement) {
+                    totalElement.textContent = total;
+                }
+            }
+        });
+
+        // Handle addon checkout button
+        const addonBtn = document.getElementById('addon-btn');
+        if (addonBtn) {
+            addonBtn.addEventListener('click', async function() {
+                const checkedBoxes = document.querySelectorAll('input[type=checkbox]:checked');
+                
+                if (checkedBoxes.length === 0) {
+                    alert('Please select at least one addon');
+                    return;
+                }
+
+                const addons = [];
+                let totalPrice = 0;
+
+                checkedBoxes.forEach(checkbox => {
+                    const addonBox = checkbox.closest('.addron-box');
+                    const addonName = addonBox.querySelector('.addon-name')?.textContent.replace(/\s+/g, ' ').trim() || '';
+                    const addonPrice = parseInt(checkbox.value) || 0;
+
+                    addons.push({
+                        name: addonName,
+                        price: addonPrice
+                    });
+
+                    totalPrice += addonPrice;
+                });
+
+                try {
+                    // Disable button during submission
+                    addonBtn.disabled = true;
+                    addonBtn.textContent = 'Processing...';
+
+                    const leadId = getLeadId();
+                    if (!leadId) {
+                        throw new Error('Session expired. Please start over.');
+                    }
+
+                    // Submit addons to API
+                    await submitAddons(leadId, addons);
+
+                    // Get URL parameters for redirect
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const id = urlParams.get('id') || leadId;
+                    const nature = urlParams.get('natasdfsdure') || '';
+                    const const_param = urlParams.get('conjkvCXst') || '';
+
+                    // Redirect to thank you page
+                    window.location.href = `thank-you.php?id=${id}&natasdfsdure=${nature}&conjkvCXst=${const_param}`;
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+                    addonBtn.disabled = false;
+                    addonBtn.textContent = 'Checkout';
+                }
+            });
+        }
+    }
 });
