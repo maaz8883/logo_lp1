@@ -541,7 +541,7 @@ body { padding-bottom: 82px; }
     <a href="brief-form.php?encrypted_lead_id=<?php echo $safe_uuid; ?>" class="s-skip">Skip</a>
     <button class="s-checkout" id="checkout-btn" disabled>
       <i class="fa fa-credit-card"></i>
-      Checkout Add-ons
+      Process to Next Step
     </button>
   </div>
 </div>
@@ -690,7 +690,7 @@ coBtn.addEventListener('click', async () => {
     
     // Re-enable button
     coBtn.disabled = false;
-    coBtn.innerHTML = '<i class="fa fa-credit-card"></i> Checkout Add-ons';
+    coBtn.innerHTML = '<i class="fa fa-credit-card"></i> Process to Next Step';
   }
 });
 

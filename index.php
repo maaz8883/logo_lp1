@@ -132,6 +132,57 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 /*    display: block;*/
 /*}*/
 /*}*/
+.ts-video-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+}
+
+.ts-video-box {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #2a2a2a;
+}
+
+.ts-video-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;
+  display: block;
+}
+
+.ts-thumbnail-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+
+.ts-video-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.4s ease;
+  z-index: 2;
+}
+
+.ts-video-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
 </style>
 
     <body>
@@ -2327,6 +2378,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                          confidence.
                         </h1>
                     </div>
+                             <div class="ts-video-wrap">
+  <div class="ts-video-box">
+    <video id="tsClientVideo" src="https://logoelementdesign.com/lp/assets/testi.mp4" playsinline controls style="display:none;width:100%;height:100%;object-fit:cover;"></video>
+    <img id="tsThumbnail" class="ts-thumbnail-img" src="https://logoelementdesign.com/lp/assets/images/30551474-b854-4fcd-8594-ca8e1f967060.png" alt="Video thumbnail" />
+    <div class="ts-video-overlay" id="tsVideoOverlay" onclick="tsPlayVideo()">
+    </div>
+  </div>
+</div>
                     </div>
                     <div class="testi-back">
                     <div class="testi-slider">
@@ -2913,7 +2972,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 updateSlides();
             });
+            
         </script>
+        <script>
+function tsPlayVideo() {
+  const overlay = document.getElementById('tsVideoOverlay');
+  const thumb = document.getElementById('tsThumbnail');
+  const player = document.getElementById('tsClientVideo');
+
+  overlay.classList.add('hidden');
+  thumb.style.display = 'none';
+  player.style.display = 'block';
+  player.play();
+}
+</script>
 
 </body>
 

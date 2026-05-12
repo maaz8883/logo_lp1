@@ -378,3 +378,12 @@
 [21-Apr-2026 18:27:11 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/ma9sn7dyb9as7d/public_html/lp1/pay.php on line 437
 [21-Apr-2026 18:27:11 UTC] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/ma9sn7dyb9as7d/public_html/lp1/pay.php on line 437
 [21-Apr-2026 18:27:11 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/ma9sn7dyb9as7d/public_html/lp1/pay.php on line 446
+[23-Apr-2026 16:03:52 UTC] PHP Warning:  Undefined array key "id" in /home/ma9sn7dyb9as7d/public_html/lp1/addons.php on line 862
+[23-Apr-2026 16:03:52 UTC] PHP Warning:  Undefined array key "natasdfsdure" in /home/ma9sn7dyb9as7d/public_html/lp1/addons.php on line 862
+[23-Apr-2026 16:03:52 UTC] PHP Warning:  Undefined array key "conjkvCXst" in /home/ma9sn7dyb9as7d/public_html/lp1/addons.php on line 862
+[23-Apr-2026 19:32:04 UTC] PHP Warning:  Undefined array key "id" in /home/ma9sn7dyb9as7d/public_html/lp1/addons.php on line 862
+[23-Apr-2026 19:32:04 UTC] PHP Warning:  Undefined array key "natasdfsdure" in /home/ma9sn7dyb9as7d/public_html/lp1/addons.php on line 862
+[23-Apr-2026 19:32:04 UTC] PHP Warning:  Undefined array key "conjkvCXst" in /home/ma9sn7dyb9as7d/public_html/lp1/addons.php on line 862
+[06-May-2026 10:22:58 UTC] PHP Warning:  Undefined array key "id" in /home/ma9sn7dyb9as7d/public_html/lp1/addons.php on line 862
+[06-May-2026 10:22:58 UTC] PHP Warning:  Undefined array key "natasdfsdure" in /home/ma9sn7dyb9as7d/public_html/lp1/addons.php on line 862
+[06-May-2026 10:22:58 UTC] PHP Warning:  Undefined array key "conjkvCXst" in /home/ma9sn7dyb9as7d/public_html/lp1/addons.php on line 862
