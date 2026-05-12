@@ -236,7 +236,7 @@ h1 {
     <div class="order-id-value">#<?php echo $short_id; ?></div>
   </div>
 
-  <!-- <div class="next-steps">
+  <div class="next-steps">
     <h3><i class="fa fa-info-circle"></i> What Happens Next?</h3>
     <ul>
       <li>You'll receive a confirmation email shortly</li>
@@ -244,15 +244,15 @@ h1 {
       <li>We'll start working on your project within 24 hours</li>
       <li>You'll receive regular updates on progress</li>
     </ul>
-  </div> -->
+  </div>
 
-  <!-- <a href="brief-form.php?encrypted_lead_id=<?php echo htmlspecialchars($uuid, ENT_QUOTES, 'UTF-8'); ?>" class="btn-primary">
+  <a href="brief-form.php?encrypted_lead_id=<?php echo htmlspecialchars($uuid, ENT_QUOTES, 'UTF-8'); ?>" class="btn-primary">
     Complete Your Brief Form
-  </a> -->
+  </a>
 
   <div class="contact-info">
     Questions? Contact us at <a href="tel:+12792251157">(279) 225-1157</a><br>
-    or email <a href="mailto:support@logoelementdesign.com">support@logoelementdesign.com</a>
+    or email <a href="mailto:support@logoelementdesign.com">info@logoelementdesign.com</a>
   </div>
 
 </div>
