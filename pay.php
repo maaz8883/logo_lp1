@@ -106,14 +106,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay_method']) && $_PO
     }
 }
 
-// If coming back from Clover Success, update CRM
+// If coming back from Clover Success, update CRM and redirect
 if (isset($_GET['status']) && $_GET['status'] == 'success' && $uuid && $linkData) {
    
 //   echo 1;
  verifyPaymentWithCrm($uuid);
  // Reload data after verification to get updated status
  $linkData = PaymentDetails_uuid($uuid);
-    // exit;
+ 
+ // Redirect to pay-thank-you.php
+ header("Location: pay-thank-you.php?id=" . urlencode($uuid));
+ exit;
 }
 
 // print_r($linkData);

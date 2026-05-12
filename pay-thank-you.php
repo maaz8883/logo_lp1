@@ -1,17 +1,22 @@
 <?php
 require_once 'payment-helpers.php';
 
-$uuid = $_GET['id'] ?? 'N/A';
-$pkg  = $_GET['pkg'] ?? 'Standard Package';
-$status = $_GET['status'] ?? '';
+$uuid = $_GET['id'] ?? null;
+$error = null;
+$linkData = null;
 
-if ($status === 'success' && $uuid !== 'N/A') {
-    verifyPaymentWithCrm($uuid);
+if ($uuid) {
+    $linkData = PaymentDetails_uuid($uuid);
+    
+    if (!$linkData) {
+        $error = "Payment link not found or expired.";
+    }
+} else {
+    $error = "No Payment ID provided.";
 }
 
-$short_id   = strtoupper(substr($uuid, 0, 8));
-$safe_pkg   = htmlspecialchars($pkg, ENT_QUOTES, 'UTF-8');
-$safe_uuid  = htmlspecialchars($uuid, ENT_QUOTES, 'UTF-8');
+$short_id = $linkData ? strtoupper(substr($linkData['uuid'], 0, 8)) : 'N/A';
+$safe_uuid = htmlspecialchars($uuid, ENT_QUOTES, 'UTF-8');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -235,12 +240,9 @@ header .phone:hover { color: var(--brand-dark); }
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
-    width:60%;
-    margin: 0 auto;
-    
+  width:60%;
+  margin: 0 auto;
 }
-/* stop footer being hidden under the sticky bar */
-.site-footer { margin-bottom: 0; }
 body { padding-bottom: 82px; }
 .bar-left small {
   display: block;
@@ -304,33 +306,6 @@ body { padding-bottom: 82px; }
   background: #111;
   padding: 0;
 }
-.footer-inner {
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 26px 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.footer-logo img {
-  height: 32px;
-  filter: brightness(0) invert(1);
-  opacity: 0.8;
-}
-.footer-links {
-  display: flex;
-  gap: 22px;
-}
-.footer-links a {
-  font-size: 12px;
-  color: rgba(255,255,255,0.38);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.footer-links a:hover { color: rgba(255,255,255,0.75); }
 .footer-copy-bar {
   background: var(--brand);
   padding: 12px 40px;
@@ -359,14 +334,6 @@ body { padding-bottom: 82px; }
   body { padding-bottom: 74px; }
   .s-checkout { padding: 11px 18px; font-size: 13px; }
   .s-skip { padding: 10px 14px; }
-  .modal { padding: 1.75rem 1.25rem 1.5rem; }
-  .footer-inner { flex-direction: column; align-items: flex-start; padding: 22px 18px; }
-  .footer-copy-bar { padding: 12px 18px; }
-}
-</style>
-<style>
-/* Responsive for Order Confirmation Card */
-@media (max-width: 600px) {
   .order-confirm-card {
     padding: 1rem 0.85rem !important;
     margin: 15px auto 10px !important;
@@ -434,6 +401,12 @@ body { padding-bottom: 82px; }
   </a>
 </header>
 
+<?php if ($error): ?>
+  <div style="max-width: 600px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 12px; text-align: center;">
+    <p style="color: #dc3545; font-size: 16px;"><?= htmlspecialchars($error) ?></p>
+  </div>
+<?php elseif ($linkData): ?>
+
 <!-- ══════════════════════════════════════
      ORDER CONFIRMATION SECTION (COMPACT)
 ══════════════════════════════════════ -->
@@ -454,11 +427,11 @@ body { padding-bottom: 82px; }
     <div class="order-details-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; background: #faf9f7; border-radius: 12px; padding: 1rem; border: 1px solid #ebe9e4;">
       <div style="text-align: center;">
         <div style="font-size: 11px; color: #888; font-weight: 500; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Order ID</div>
-        <div style="font-size: 16px; font-weight: 700; color: #BE5264;">#<?php echo $short_id; ?></div>
+        <div style="font-size: 16px; font-weight: 700; color: #BE5264;">#<?= $short_id ?></div>
       </div>
       <div style="text-align: center; border-left: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0;">
-        <div style="font-size: 11px; color: #888; font-weight: 500; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Package</div>
-        <div style="font-size: 16px; font-weight: 700; color: #BE5264;"><?php echo $safe_pkg; ?></div>
+        <div style="font-size: 11px; color: #888; font-weight: 500; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Billed To</div>
+        <div style="font-size: 16px; font-weight: 700; color: #BE5264;"><?= htmlspecialchars($linkData['customer_name']) ?></div>
       </div>
       <div style="text-align: center;">
         <div style="font-size: 11px; color: #888; font-weight: 500; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Status</div>
@@ -510,7 +483,9 @@ body { padding-bottom: 82px; }
     <strong><span class="currency">$</span><span class="amount" id="total-amount">0</span></strong>
   </div>
   <div class="bar-right">
-    <!-- <a href="brief-form.php?encrypted_lead_id=<?php echo $safe_uuid; ?>" class="s-skip">Skip</a> -->
+    <?php if($linkData['sale_type'] == "front"){ ?>
+    <a href="brief-form.php?encrypted_lead_id=<?= $linkData['lead_uuid'] ?>" class="s-skip">Skip</a>
+    <?php } ?>
     <button class="s-checkout" id="checkout-btn" disabled>
       <i class="fa fa-credit-card"></i>
       Submit
@@ -522,29 +497,24 @@ body { padding-bottom: 82px; }
      FOOTER
 ══════════════════════════════════════ -->
 <footer class="site-footer">
-
   <div class="footer-copy-bar">
     <p>&copy; 2026 <a href="#">Logo Element Design</a>. All rights reserved.</p>
   </div>
 </footer>
+
+<?php endif; ?>
 
 <!-- ══════════════════════════════════════
      SCRIPTS
 ══════════════════════════════════════ -->
 <script src="assets/js/jquery-3.3.1.min.js"></script>
 <script src="assets/js/custom.js"></script>
-<script src="api.js?v=<?php echo time(); ?>"></script>
+<script src="api.js?v=<?= time() ?>"></script>
 
 <script>
+<?php if ($linkData): ?>
 /* ── PHP vars ── */
-const LEAD_ID      = '<?php echo $safe_uuid; ?>';
-const PACKAGE_NAME = '<?php echo $safe_pkg; ?>';
-const PAY_STATUS   = '<?php echo htmlspecialchars($status, ENT_QUOTES, 'UTF-8'); ?>';
-
-/* ── Sync CRM on success ── */
-if (PAY_STATUS === 'success' && LEAD_ID && LEAD_ID !== 'N/A') {
-  submitStep5(LEAD_ID, PACKAGE_NAME).catch(err => console.error('CRM sync error:', err));
-}
+const LEAD_ID = '<?= htmlspecialchars($linkData['lead_uuid'] ?? $uuid, ENT_QUOTES, 'UTF-8') ?>';
 
 /* ── Addon data ── */
 const ADDONS = [
@@ -578,6 +548,7 @@ function savePct(was, price) { return Math.round((1 - price / was) * 100); }
 
 /* ── Render cards ── */
 function renderGrid() {
+  if (!grid) return;
   grid.innerHTML = '';
   ADDONS.forEach(a => {
     const isSel = selected.has(a.id);
@@ -589,8 +560,8 @@ function renderGrid() {
         <h3>${a.name}</h3>
         <p>${a.desc}</p>
         <div class="pricing">
-          <span class="price-now">${a.price}</span>
-          <span class="price-was">${a.was}</span>
+          <span class="price-now">$${a.price}</span>
+          <span class="price-was">$${a.was}</span>
           <span class="save-pill">Save ${savePct(a.was, a.price)}%</span>
         </div>
       </div>
@@ -610,57 +581,61 @@ function updateBar() {
     .filter(a => selected.has(a.id))
     .reduce((sum, a) => sum + a.price, 0);
 
-  totalEl.textContent = total;
+  if (totalEl) totalEl.textContent = total;
 
   const n   = selected.size;
-  countEl.textContent = n === 0
-    ? 'No items selected'
-    : `${n} item${n > 1 ? 's' : ''} selected`;
+  if (countEl) {
+    countEl.textContent = n === 0
+      ? 'No items selected'
+      : `${n} item${n > 1 ? 's' : ''} selected`;
+  }
 
-  coBtn.disabled = n === 0;
+  if (coBtn) coBtn.disabled = n === 0;
 }
 
 /* ── Checkout handler ── */
-coBtn.addEventListener('click', async () => {
-  const chosenIds    = [...selected];
-  const chosenAddons = ADDONS.filter(a => chosenIds.includes(a.id));
-  const totalPrice   = chosenAddons.reduce((s, a) => s + a.price, 0);
+if (coBtn) {
+  coBtn.addEventListener('click', async () => {
+    const chosenIds    = [...selected];
+    const chosenAddons = ADDONS.filter(a => chosenIds.includes(a.id));
 
-  if (chosenAddons.length === 0) {
-    alert('Please select at least one addon');
-    return;
-  }
+    if (chosenAddons.length === 0) {
+      alert('Please select at least one addon');
+      return;
+    }
 
-  try {
-    // Disable button during submission
-    coBtn.disabled = true;
-    coBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Processing...';
+    try {
+      // Disable button during submission
+      coBtn.disabled = true;
+      coBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Processing...';
 
-    // Prepare addon data for API
-    const addonsData = chosenAddons.map(a => ({
-      name: a.name,
-      price: a.price
-    }));
+      // Prepare addon data for API
+      const addonsData = chosenAddons.map(a => ({
+        name: a.name,
+        price: a.price
+      }));
 
-    // Call the addon API
-    await submitAddons(LEAD_ID, addonsData);
+      // Call the addon API
+      await submitAddons(LEAD_ID, addonsData);
 
-    // Success - redirect to thanks.php
-    window.location.href = 'thanks.php?id=' + encodeURIComponent(LEAD_ID);
+      // Success - redirect to thanks.php
+      window.location.href = 'thanks.php?id=' + encodeURIComponent(LEAD_ID);
 
-  } catch (error) {
-    console.error('Addon submission error:', error);
-    alert('Error submitting addons: ' + error.message);
-    
-    // Re-enable button
-    coBtn.disabled = false;
-    coBtn.innerHTML = '<i class="fa fa-credit-card"></i> Submit';
-  }
-});
+    } catch (error) {
+      console.error('Addon submission error:', error);
+      alert('Error submitting addons: ' + error.message);
+      
+      // Re-enable button
+      coBtn.disabled = false;
+      coBtn.innerHTML = '<i class="fa fa-credit-card"></i> Submit';
+    }
+  });
+}
 
 /* ── Init ── */
 renderGrid();
 updateBar();
+<?php endif; ?>
 </script>
 
 </body>
