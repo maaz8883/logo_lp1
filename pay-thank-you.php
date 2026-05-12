@@ -484,7 +484,7 @@ body { padding-bottom: 82px; }
   </div>
   <div class="bar-right">
     <?php if($linkData['sale_type'] == "front"){ ?>
-    <a href="brief-form.php?encrypted_lead_id=<?= $linkData['lead_uuid'] ?>" class="s-skip">Skip</a>
+    <!-- <a href="brief-form.php?encrypted_lead_id=<?= $linkData['lead_uuid'] ?>" class="s-skip">Skip</a> -->
     <?php } ?>
     <button class="s-checkout" id="checkout-btn" disabled>
       <i class="fa fa-credit-card"></i>
