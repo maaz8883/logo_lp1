@@ -81,7 +81,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a href="#" class="btn-next" onclick="event.preventDefault(); submitStep4();">Save & Continue</a>
         </div>
     </div>
-    <script src="api.js"></script>
+    <script src="api.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

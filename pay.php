@@ -119,6 +119,13 @@ if (isset($_GET['status']) && $_GET['status'] == 'success' && $uuid && $linkData
  exit;
 }
 
+// Check if payment is already completed (not pending)
+if ($linkData && $linkData['status'] != 'pending') {
+    // Payment already completed, redirect to thank you page
+    header("Location: pay-thank-you.php?id=" . urlencode($uuid));
+    exit;
+}
+
 // print_r($linkData);
 // exit;
 
@@ -1209,7 +1216,7 @@ document.addEventListener("DOMContentLoaded", function () {
     </script>
     <?php endif; ?>
 
-    <script src="api.js"></script>
+    <script src="api.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

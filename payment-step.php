@@ -424,7 +424,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <?php endif; ?>
     </div>
 
-    <script src="api.js"></script>
+    <script src="api.js?v=<?= time() ?>"></script>
 
     <?php if ($selectedMerchant === 'paypal' && !empty($paypalClientId)): ?>
     <script>

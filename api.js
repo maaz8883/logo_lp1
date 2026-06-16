@@ -9,11 +9,45 @@ if (hostname === "localhost" || hostname === "127.0.0.1") {
 } else {
     API_BASE_URL = "https://elementdesignagency.com/crm";
 }
+
+(function () {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const leadId = params.get('encrypted_lead_id') || params.get('id');
+        if (leadId) {
+            localStorage.setItem('lead_id', leadId);
+        }
+    } catch (e) {}
+})();
+
 /**
  * Helper to get value from localStorage
  */
+function getLeadIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('encrypted_lead_id') || urlParams.get('id') || null;
+}
+
 function getLeadId() {
-    return localStorage.getItem('lead_id');
+    const fromStorage = localStorage.getItem('lead_id');
+    if (fromStorage) {
+        return fromStorage;
+    }
+
+    const fromUrl = getLeadIdFromUrl();
+    if (fromUrl) {
+        localStorage.setItem('lead_id', fromUrl);
+        return fromUrl;
+    }
+
+    return null;
+}
+
+function restoreLeadSessionFromUrl() {
+    const fromUrl = getLeadIdFromUrl();
+    if (fromUrl) {
+        setLeadId(fromUrl);
+    }
 }
 
 /**
@@ -478,6 +512,8 @@ async function submitAddons(leadId, addons) {
 
 // Utility to handle style card selection (Single Select)
 document.addEventListener('DOMContentLoaded', () => {
+    restoreLeadSessionFromUrl();
+
     // Logo Style Page Interactions
     const styleCards = document.querySelectorAll('.style-card');
     styleCards.forEach(card => {

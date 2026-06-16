@@ -152,7 +152,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a href="logo-details.html" class="btn-next">Save & Continue</a>
         </div>
     </div>
-    <script src="api.js"></script>
+    <script src="api.js?v=<?= time() ?>"></script>
     <script>
         // Override the Next button to call our API function
         document.querySelector('.btn-next').addEventListener('click', (e) => {
